@@ -2238,5 +2238,57 @@
       }
     });
   </script>
+
+  <script>
+    // ─── FORM → SERVERLESS FUNCTION ──────────────────────────────────
+    document.querySelector('.cta-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const payload = {
+        fullName:   document.getElementById('f-name').value.trim(),
+        phone:      document.getElementById('f-phone').value.trim(),
+        email:      document.getElementById('f-email').value.trim(),
+        dateNeeded: document.getElementById('f-date').value || null,
+        taskType:   document.getElementById('f-task').value || null,
+        location:   document.getElementById('f-location').value.trim(),
+        budget:     document.getElementById('f-budget').value.trim(),
+        message:    document.getElementById('f-message').value.trim(),
+      };
+
+      const msg = document.getElementById('form-message');
+
+      try {
+        const res = await fetch('/api/submit-task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        msg.textContent = '✓ Your task has been posted! We\'ll be in touch soon.';
+        msg.style.display = 'block';
+        msg.style.background = '#e6f4ea';
+        msg.style.color = '#1a7f37';
+        this.reset();
+        btn.textContent = originalText;
+        btn.disabled = false;
+        setTimeout(() => { msg.style.display = 'none'; }, 6000);
+      } catch (err) {
+        console.error('Submit error:', err);
+        msg.textContent = '✗ Something went wrong. Please try again.';
+        msg.style.display = 'block';
+        msg.style.background = '#fdecea';
+        msg.style.color = '#c0392b';
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
