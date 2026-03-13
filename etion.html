@@ -2240,12 +2240,7 @@
   </script>
 
   <script>
-    // ─── FORM → SANITY ───────────────────────────────────────────────
-    const SANITY_PROJECT_ID = 'x0qx8kpt';
-    const SANITY_DATASET    = 'production';
-    const SANITY_API_VERSION = '2021-06-07';
-    const SANITY_WRITE_TOKEN = 'sklHujtP1p589WWryGp1iGxykq870pS4rtIz0mj0RM95cOgBeuRVpQMH4q5SgY5P7MgzWQIFl1nD65zzQWNZmSkCQ7JbmX4k0iNPxfa7UTZanNbMP9NhDdbEuunT2281SVOA5CBgL3Xbc2jOqGeYj3Yd0k3cIaKUE2BJQ2vKRhhbNtZTtIqB';
-
+    // ─── FORM → SERVERLESS FUNCTION ──────────────────────────────────
     document.querySelector('.cta-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -2254,31 +2249,23 @@
       btn.textContent = 'Sending…';
       btn.disabled = true;
 
-      const doc = {
-        _type: 'taskSubmission',
-        fullName:    document.getElementById('f-name').value.trim(),
-        phone:       document.getElementById('f-phone').value.trim(),
-        email:       document.getElementById('f-email').value.trim(),
-        dateNeeded:  document.getElementById('f-date').value || null,
-        taskType:    document.getElementById('f-task').value || null,
-        location:    document.getElementById('f-location').value.trim(),
-        budget:      document.getElementById('f-budget').value.trim(),
-        message:     document.getElementById('f-message').value.trim(),
-        submittedAt: new Date().toISOString(),
+      const payload = {
+        fullName:   document.getElementById('f-name').value.trim(),
+        phone:      document.getElementById('f-phone').value.trim(),
+        email:      document.getElementById('f-email').value.trim(),
+        dateNeeded: document.getElementById('f-date').value || null,
+        taskType:   document.getElementById('f-task').value || null,
+        location:   document.getElementById('f-location').value.trim(),
+        budget:     document.getElementById('f-budget').value.trim(),
+        message:    document.getElementById('f-message').value.trim(),
       };
 
       try {
-        const res = await fetch(
-          `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/mutate/${SANITY_DATASET}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${SANITY_WRITE_TOKEN}`,
-            },
-            body: JSON.stringify({ mutations: [{ create: doc }] }),
-          }
-        );
+        const res = await fetch('/api/submit-task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
 
         if (!res.ok) throw new Error(await res.text());
 
@@ -2286,7 +2273,7 @@
         this.reset();
         setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
       } catch (err) {
-        console.error('Sanity submit error:', err);
+        console.error('Submit error:', err);
         btn.textContent = 'Something went wrong';
         btn.disabled = false;
       }
