@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custo® — Slimme pakketbrievenbus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ::selection { background: #000; color: #fff; }
+
+    :root {
+      --hero-bg:   #9ea29f;
+      --dark:      #2b2b2b;
+      --darker:    #1a1a1a;
+      --mid-dark:  #3a3a38;
+      --white:     #ffffff;
+      --off-white: #f5f4f1;
+      --muted:     #7a7d7a;
+      --accent:    #c8ca26;
+      --gap:       1.5rem;
+    }
+
+    html { scroll-behavior: smooth; line-height: 1.15; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      color: #000;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID ─── */
+    .grid-12 {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gap);
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ─── NAV ─── */
+    .c-Nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease;
+    }
+
+    .c-Nav.scrolled {
+      background: rgba(30,30,28,0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .c-Nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .c-Nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .c-Nav-links a {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .c-Nav-links a:hover { color: #fff; }
+
+    .c-Nav-cta {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 0.55rem 1.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .c-Nav-cta:hover { background: rgba(255,255,255,0.12); border-color: #fff; }
+
+    /* ─── HERO ─── */
+    .c-HomeHero {
+      height: 100vh;
+      background: var(--hero-bg);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .c-HomeHero-inner {
+      position: relative;
+      height: 100%;
+      padding-top: 18vh;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* Big stacked CUSTO wordmark */
+    .c-HomeHero-wordmark {
+      position: absolute;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-54%);
+      pointer-events: none;
+      line-height: 0.87;
+    }
+
+    .c-HomeHero-wordmark span {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(14vw, 20vw, 22vw);
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.12);
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .c-HomeHero-wordmark span:first-child {
+      color: rgba(255,255,255,0.22);
+      transform: translateX(-0.5%);
+    }
+
+    /* Tagline top-left */
+    .c-HomeHero-tagline {
+      position: absolute;
+      top: 12vh;
+      left: 2rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Headline copy */
+    .c-HomeHero-copy {
+      position: absolute;
+      left: 2rem;
+      bottom: 12vh;
+      max-width: 440px;
+    }
+
+    .c-HomeHero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.5rem, 2.8vw, 2.6rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .c-HomeHero-sub {
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.78);
+      max-width: 340px;
+    }
+
+    .c-HomeHero-btn {
+      display: inline-block;
+      margin-top: 1.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      text-decoration: none;
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .c-HomeHero-btn:hover { border-color: #fff; }
+
+    /* Product image — right side */
+    .c-HomeHero-product {
+      position: absolute;
+      right: 8vw;
+      bottom: 0;
+      width: clamp(180px, 22vw, 320px);
+      z-index: 2;
+      transform: translateY(2%);
+    }
+
+    .c-HomeHero-product img {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(-40px 40px 60px rgba(0,0,0,0.35));
+    }
+
+    /* Small badge bottom-right */
+    .c-HomeHero-badge {
+      position: absolute;
+      bottom: 12vh;
+      right: 2rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-align: right;
+    }
+    .c-HomeHero-badge strong {
+      display: block;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      font-size: 0.78rem;
+    }
+
+    /* Scroll indicator */
+    .c-HomeHero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+    .c-HomeHero-scroll-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.3);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* ─── SECTION INTRO ─── */
+    .c-Intro {
+      background: #fff;
+      padding: 0;
+    }
+
+    .c-Intro-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 70vh;
+    }
+
+    .c-Intro-imgWrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--hero-bg);
+    }
+
+    .c-Intro-imgWrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .c-Intro-copy {
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .c-Intro-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .c-Intro-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.75rem;
+    }
+
+    .c-Intro-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #555;
+      max-width: 420px;
+      margin-bottom: 2rem;
+    }
+
+    .c-Intro-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      line-height: 2;
+      border-top: 1px solid #e8e8e8;
+      padding-top: 1.5rem;
+    }
+
+    /* ─── PRODUCT SHOWCASE ─── */
+    .c-ProductShowcase {
+      background: var(--dark);
+      padding: 7rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .c-ProductShowcase-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .c-ProductShowcase-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 4rem;
+    }
+
+    .c-ProductShowcase-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .c-ProductCard {
+      background: #363634;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .c-ProductCard-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #444;
+      overflow: hidden;
+    }
+    .c-ProductCard-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .c-ProductCard:hover .c-ProductCard-img img {
+      transform: scale(1.04);
+    }
+
+    .c-ProductCard-body {
+      padding: 1.75rem 1.5rem 2rem;
+      flex: 1;
+    }
+
+    .c-ProductCard-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 0.75rem;
+    }
+
+    .c-ProductCard-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .c-ProductCard-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ─── FEATURE STRIP ─── */
+    .c-FeatureStrip {
+      background: var(--darker);
+      padding: 5rem 2rem;
+      border-top: 1px solid #333;
+    }
+
+    .c-FeatureStrip-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .c-FeatureStrip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #333;
+      border: 1px solid #333;
+    }
+
+    .c-Feature {
+      background: var(--darker);
+      padding: 2.5rem 2rem;
+    }
+
+    .c-Feature-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.08);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .c-Feature-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .c-Feature-desc {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ─── APP SECTION ─── */
+    .c-App {
+      background: var(--hero-bg);
+      padding: 7rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .c-App-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .c-App-copy {}
+
+    .c-App-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.5rem;
+    }
+
+    .c-App-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .c-App-list {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+
+    .c-App-list li {
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.75);
+      padding: 1rem 0;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .c-App-list li:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .c-App-list li::before {
+      content: '→';
+      color: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .c-App-btn {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.85rem 1.75rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.25s;
+    }
+    .c-App-btn:hover { background: rgba(0,0,0,0.5); }
+
+    .c-App-phones {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 560px;
+    }
+
+    .c-Phone {
+      background: #1c1c1e;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 48px 96px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07);
+      position: absolute;
+      border: 7px solid #2a2a2c;
+    }
+
+    .c-Phone--main {
+      width: 260px;
+      height: 520px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-65%, -50%) rotate(-4deg);
+      z-index: 2;
+    }
+
+    .c-Phone--secondary {
+      width: 235px;
+      height: 470px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-5%, -48%) rotate(5deg);
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    .c-Phone-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .c-Phone-notch {
+      width: 80px;
+      height: 8px;
+      background: #000;
+      border-radius: 4px;
+      margin: 0 auto 1rem;
+    }
+
+    .c-Phone-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .c-Phone-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .c-Phone-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(158,162,159,0.25);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .c-Phone-rowtext { flex: 1; }
+
+    .c-Phone-rowlabel {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.04em;
+    }
+
+    .c-Phone-rowsub {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .c-Phone-badge {
+      width: 18px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 50%;
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .c-Phone-map {
+      flex: 1;
+      background: linear-gradient(135deg, #2a3a2a 0%, #1e2e1e 100%);
+      border-radius: 12px;
+      margin-top: 0.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .c-Phone-map-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 40%;
+      left: 55%;
+      box-shadow: 0 0 0 4px rgba(200,202,38,0.25);
+    }
+
+    /* ─── GUARANTEE SECTION ─── */
+    .c-Guarantee {
+      background: var(--dark);
+      padding: 7rem 2rem;
+    }
+
+    .c-Guarantee-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .c-Guarantee-img {
+      position: relative;
+    }
+
+    .c-Guarantee-imgWrap {
+      background: #1a1a1a;
+      border-radius: 4px;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      position: relative;
+      min-height: 420px;
+    }
+
+    .c-Guarantee-imgWrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .c-Guarantee-imgTag {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      backdrop-filter: blur(6px);
+    }
+
+    .c-Guarantee-copy {}
+
+    .c-Guarantee-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1.5rem;
+    }
+
+    .c-Guarantee-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .c-Guarantee-body {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 2.5rem;
+    }
+
+    .c-Guarantee-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .c-Stat {}
+
+    .c-Stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2.5rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .c-Stat-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+    }
+
+    /* ─── MARQUEE ─── */
+    .c-Marquee {
+      background: var(--darker);
+      padding: 1.25rem 0;
+      overflow: hidden;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    .c-Marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 24s linear infinite;
+    }
+
+    .c-Marquee-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      padding: 0 3rem;
+    }
+
+    .c-Marquee-item span {
+      color: rgba(255,255,255,0.1);
+      margin: 0 1rem;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ─── EXPERTS SECTION ─── */
+    .c-Experts {
+      background: var(--off-white);
+      padding: 7rem 2rem;
+    }
+
+    .c-Experts-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .c-Experts-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+
+    .c-Experts-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1.05;
+      max-width: 400px;
+    }
+
+    .c-Experts-sub {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #666;
+      max-width: 320px;
+      text-align: right;
+    }
+
+    .c-Experts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .c-ExpertCard {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 4px;
+    }
+
+    .c-ExpertCard-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--hero-bg);
+      border-radius: 50%;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+
+    .c-ExpertCard-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .c-ExpertCard-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .c-ExpertCard-role {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .c-ExpertCard-quote {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #444;
+      font-style: italic;
+    }
+
+    /* ─── CLOSING HERO ─── */
+    .c-ClosingHero {
+      background: var(--dark);
+      padding: 10rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .c-ClosingHero-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .c-ClosingHero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 6rem);
+      line-height: 0.95;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .c-ClosingHero-headline em {
+      font-style: normal;
+      color: rgba(255,255,255,0.2);
+    }
+
+    .c-ClosingHero-right {}
+
+    .c-ClosingHero-body {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2.5rem;
+    }
+
+    .c-ClosingHero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .c-Btn {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      padding: 0.9rem 2rem;
+      transition: all 0.25s;
+    }
+
+    .c-Btn--primary {
+      background: #fff;
+      color: #000;
+    }
+    .c-Btn--primary:hover { background: rgba(255,255,255,0.88); }
+
+    .c-Btn--ghost {
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .c-Btn--ghost:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+    .c-ClosingHero-img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 35%;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .c-ClosingHero-img img { width: 100%; display: block; }
+
+    /* ─── FOOTER ─── */
+    .c-Footer {
+      background: var(--darker);
+      padding: 4rem 2rem 2.5rem;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .c-Footer-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .c-Footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid #2a2a2a;
+      margin-bottom: 2rem;
+    }
+
+    .c-Footer-brand {}
+
+    .c-Footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .c-Footer-tagline {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.35);
+      max-width: 240px;
+    }
+
+    .c-Footer-col h4 {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 1.25rem;
+    }
+
+    .c-Footer-col ul {
+      list-style: none;
+    }
+
+    .c-Footer-col ul li {
+      margin-bottom: 0.65rem;
+    }
+
+    .c-Footer-col ul li a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .c-Footer-col ul li a:hover { color: rgba(255,255,255,0.9); }
+
+    .c-Footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .c-Footer-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.04em;
+    }
+
+    .c-Footer-legal {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .c-Footer-legal a {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .c-Footer-legal a:hover { color: rgba(255,255,255,0.5); }
+
+    /* ─── SVG PRODUCT PLACEHOLDER ─── */
+    .product-svg-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .js-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .js-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .c-ProductShowcase-cards { grid-template-columns: 1fr 1fr; }
+      .c-FeatureStrip-grid { grid-template-columns: repeat(2, 1fr); }
+      .c-Experts-grid { grid-template-columns: 1fr 1fr; }
+      .c-Footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 767px) {
+      :root { --gap: 0.75rem; }
+      .grid-12 { row-gap: 0; }
+      .c-HomeHero-inner { padding-top: 7.5rem; }
+
+      .c-HomeHero-wordmark span { font-size: 28vw; }
+      .c-HomeHero-copy { left: 1.25rem; right: 1.25rem; max-width: none; }
+      .c-HomeHero-product { width: 40vw; right: 0; }
+
+      .c-Intro-inner { grid-template-columns: 1fr; }
+      .c-Intro-imgWrap { min-height: 280px; }
+      .c-Intro-copy { padding: 3rem 1.5rem; }
+      .c-Guarantee-inner,
+      .c-App-inner,
+      .c-ClosingHero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .c-ProductShowcase-cards,
+      .c-FeatureStrip-grid,
+      .c-Experts-grid { grid-template-columns: 1fr; }
+      .c-Experts-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .c-Experts-sub { text-align: left; }
+      .c-Footer-top { grid-template-columns: 1fr; }
+      .c-Footer-bottom { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .c-Nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav class="c-Nav" id="nav">
+    <a href="#" class="c-Nav-logo">Custo®</a>
+    <ul class="c-Nav-links">
+      <li><a href="#product">Product</a></li>
+      <li><a href="#app">App</a></li>
+      <li><a href="#garant">Garantie</a></li>
+      <li><a href="#experts">Experts</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#bestellen" class="c-Nav-cta">Bestellen</a>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="c-HomeHero">
+    <div class="c-HomeHero-inner">
+
+      <div class="c-HomeHero-tagline">Ontdang de wereld aan je voordeur</div>
+
+      <!-- Big stacked wordmark -->
+      <div class="c-HomeHero-wordmark" aria-hidden="true">
+        <span>CUSTO</span>
+        <span>CUSTO</span>
+      </div>
+
+      <!-- Headline copy -->
+      <div class="c-HomeHero-copy">
+        <h1 class="c-HomeHero-headline">
+          Lange pakketbrieven naar je geleverde pakketjes in de tuin zijn voorgoed verleden tijd. Dat garanderen we.
+        </h1>
+        <p class="c-HomeHero-sub">
+          Met de Custo slimme brievenbus ontvang je elk pakket veilig, droog en op het juiste moment — altijd.
+        </p>
+        <a href="#product" class="c-HomeHero-btn">Ontdek het product →</a>
+      </div>
+
+      <!-- Product image -->
+      <div class="c-HomeHero-product">
+        <svg viewBox="0 0 260 640" xmlns="http://www.w3.org/2000/svg" aria-label="Custo slimme brievenbus">
+          <!-- Post -->
+          <rect x="118" y="480" width="24" height="160" rx="4" fill="#1a1a1a"/>
+          <!-- Main body -->
+          <rect x="40" y="100" width="180" height="400" rx="12" fill="#1e1e1e"/>
+          <!-- Front panel -->
+          <rect x="52" y="120" width="156" height="350" rx="8" fill="#252525"/>
+          <!-- Camera/sensor slot -->
+          <ellipse cx="130" cy="155" rx="14" ry="14" fill="#111" stroke="#333" stroke-width="1.5"/>
+          <ellipse cx="130" cy="155" rx="7" ry="7" fill="#0d0d0d"/>
+          <circle cx="130" cy="155" r="3" fill="#4a7c59" opacity="0.8"/>
+          <!-- Mail slot -->
+          <rect x="70" y="240" width="120" height="18" rx="4" fill="#111"/>
+          <!-- Package slot -->
+          <rect x="60" y="300" width="140" height="80" rx="6" fill="#111"/>
+          <rect x="70" y="310" width="120" height="60" rx="4" fill="#1a1a1a"/>
+          <!-- Status LED -->
+          <rect x="118" y="380" width="24" height="6" rx="3" fill="#4a7c59" opacity="0.9"/>
+          <!-- Logo on device -->
+          <text x="130" y="430" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-weight="800" font-size="18" fill="rgba(255,255,255,0.12)" letter-spacing="2">CUSTO</text>
+          <!-- Top cap -->
+          <rect x="36" y="90" width="188" height="20" rx="8" fill="#161616"/>
+          <!-- Subtle highlight -->
+          <rect x="40" y="100" width="6" height="400" rx="3" fill="rgba(255,255,255,0.04)"/>
+          <!-- Base plate -->
+          <rect x="80" y="475" width="100" height="12" rx="4" fill="#141414"/>
+        </svg>
+      </div>
+
+      <!-- Badge bottom-right -->
+      <div class="c-HomeHero-badge">
+        <strong>Custo® 1</strong>
+        Slimme brievenbus<br>Nederlandstalig
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="c-HomeHero-scroll">
+        <div class="c-HomeHero-scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── INTRO ─── -->
+  <section class="c-Intro" id="product">
+    <div class="c-Intro-inner">
+      <div class="c-Intro-imgWrap js-reveal">
+        <img src="https://placehold.co/720x800/9ea29f/ffffff?text=Custo+in+gebruik" alt="Custo brievenbus in gebruik">
+      </div>
+      <div class="c-Intro-copy js-reveal" style="transition-delay:0.1s">
+        <div class="c-Intro-label">Over Custo</div>
+        <h2 class="c-Intro-headline">
+          Custo® zal jouw leven voor eens en altijd veranderen.
+        </h2>
+        <p class="c-Intro-body">
+          De Custo brievenbus is jouw persoonlijke assistent voor al jouw pakketjes. Ontworpen door experts en gefabriceerd met een unieke visie — nooit meer een gemiste levering.
+        </p>
+        <div class="c-Intro-meta">
+          Nederlands &nbsp;·&nbsp; Made in EU &nbsp;·&nbsp; IP65 &nbsp;·&nbsp; 5 jaar garantie
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PRODUCT SHOWCASE ─── -->
+  <section class="c-ProductShowcase" id="showcase">
+    <div class="c-ProductShowcase-inner">
+      <div class="c-ProductShowcase-eyebrow js-reveal">Producteigenschappen</div>
+      <div class="c-ProductShowcase-cards">
+
+        <div class="c-ProductCard js-reveal">
+          <div class="c-ProductCard-img">
+            <img src="https://placehold.co/400x300/2a2e2a/9ea29f?text=Installatie" alt="Custo installatie aan de muur">
+          </div>
+          <div class="c-ProductCard-body">
+            <div class="c-ProductCard-tag">Installatie</div>
+            <h3 class="c-ProductCard-title">Eenvoudig aan de muur</h3>
+            <p class="c-ProductCard-desc">In minder dan 30 minuten gemonteerd naast uw voordeur. Geen aannemer nodig.</p>
+          </div>
+        </div>
+
+        <div class="c-ProductCard js-reveal" style="transition-delay:0.1s">
+          <div class="c-ProductCard-img">
+            <img src="https://placehold.co/400x300/303530/9ea29f?text=Capaciteit" alt="Custo capaciteit pakketjes">
+          </div>
+          <div class="c-ProductCard-body">
+            <div class="c-ProductCard-tag">Capaciteit</div>
+            <h3 class="c-ProductCard-title">Pakketjes tot 34×34×50 cm</h3>
+            <p class="c-ProductCard-desc">Geschikt voor de meeste standaard pakketten. Beveiligd met een elektronisch slot.</p>
+          </div>
+        </div>
+
+        <div class="c-ProductCard js-reveal" style="transition-delay:0.2s">
+          <div class="c-ProductCard-img">
+            <img src="https://placehold.co/400x300/2e2e28/9ea29f?text=IP65+Bescherming" alt="Custo waterdicht IP65">
+          </div>
+          <div class="c-ProductCard-body">
+            <div class="c-ProductCard-tag">Bescherming</div>
+            <h3 class="c-ProductCard-title">Waterdicht & weerbestendig</h3>
+            <p class="c-ProductCard-desc">IP65-gecertificeerd. Uw post blijft droog, veilig en onbeschadigd — ook in de regen.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURE STRIP ─── -->
+  <section class="c-FeatureStrip">
+    <div class="c-FeatureStrip-inner">
+      <div class="c-FeatureStrip-grid">
+        <div class="c-Feature js-reveal">
+          <div class="c-Feature-num">01</div>
+          <div class="c-Feature-title">Directe melding</div>
+          <p class="c-Feature-desc">Ontvang een pushmelding zodra een pakketje of brief wordt gedeponeerd.</p>
+        </div>
+        <div class="c-Feature js-reveal" style="transition-delay:0.08s">
+          <div class="c-Feature-num">02</div>
+          <div class="c-Feature-title">Elektronisch slot</div>
+          <p class="c-Feature-desc">Alleen jij kunt openen via de app. Eenmalige codes voor bezorgers.</p>
+        </div>
+        <div class="c-Feature js-reveal" style="transition-delay:0.16s">
+          <div class="c-Feature-num">03</div>
+          <div class="c-Feature-title">HD camera</div>
+          <p class="c-Feature-desc">Zie wie er aanbelde met de ingebouwde camera en live-beeld in de app.</p>
+        </div>
+        <div class="c-Feature js-reveal" style="transition-delay:0.24s">
+          <div class="c-Feature-num">04</div>
+          <div class="c-Feature-title">5 jaar garantie</div>
+          <p class="c-Feature-desc">Wij garanderen een zorgeloze werking. Altijd service wanneer dat nodig is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── APP SECTION ─── -->
+  <section class="c-App" id="app">
+    <div class="c-App-inner">
+      <div class="c-App-copy">
+        <div class="c-App-eyebrow js-reveal">De Custo app</div>
+        <h2 class="c-App-headline js-reveal" style="transition-delay:0.1s">
+          De Custo app<br>is jouw persoonlijke assistent voor al jouw pakketjes.
+        </h2>
+        <ul class="c-App-list js-reveal" style="transition-delay:0.2s">
+          <li>assistent voor al jouw bezorgingen</li>
+          <li>assistent voor al jouw pakketjes</li>
+          <li>Focus: notificaties, camera, bezorggeschiedenis</li>
+          <li>Compatibel met iOS en Android</li>
+        </ul>
+        <a href="#bestellen" class="c-App-btn js-reveal" style="transition-delay:0.3s">Download de app</a>
+      </div>
+
+      <div class="c-App-phones js-reveal" style="transition-delay:0.15s">
+        <!-- Secondary phone -->
+        <div class="c-Phone c-Phone--secondary">
+          <div class="c-Phone-screen" style="background:#111">
+            <div class="c-Phone-notch"></div>
+            <div class="c-Phone-header" style="color:rgba(255,255,255,0.6);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Geschiedenis</div>
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon" style="background:#3a4a3a"></div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">PostNL — Bezorgd</div>
+                <div class="c-Phone-rowsub">Gisteren 14:32</div>
+              </div>
+            </div>
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon" style="background:#2a3a4a"></div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">DHL — Bezorgd</div>
+                <div class="c-Phone-rowsub">Ma 09:15</div>
+              </div>
+            </div>
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon" style="background:#3a2a2a"></div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">Bol.com — Bezorgd</div>
+                <div class="c-Phone-rowsub">Za 16:44</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main phone -->
+        <div class="c-Phone c-Phone--main">
+          <div class="c-Phone-screen" style="background:#0f0f0f">
+            <div class="c-Phone-notch"></div>
+            <div class="c-Phone-header">CUSTO®</div>
+
+            <!-- Notification -->
+            <div style="background:#1a2a1a;border-radius:10px;padding:0.65rem;margin-bottom:0.65rem;">
+              <div style="font-size:0.58rem;color:#4a7c59;font-weight:700;letter-spacing:0.06em;margin-bottom:0.25rem;">NIEUW PAKKET</div>
+              <div style="font-size:0.62rem;color:rgba(255,255,255,0.7);">PostNL heeft een pakket bezorgd — Nu ophalen?</div>
+            </div>
+
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon">
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;">📦</div>
+              </div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">Brievenbus</div>
+                <div class="c-Phone-rowsub">1 item aanwezig</div>
+              </div>
+              <div class="c-Phone-badge">1</div>
+            </div>
+
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon" style="background:#1e2e1e">
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;">🔒</div>
+              </div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">Slot</div>
+                <div class="c-Phone-rowsub" style="color:#4a7c59">Vergrendeld ✓</div>
+              </div>
+            </div>
+
+            <div class="c-Phone-row">
+              <div class="c-Phone-icon" style="background:#1e1e2e">
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;">📷</div>
+              </div>
+              <div class="c-Phone-rowtext">
+                <div class="c-Phone-rowlabel">Camera</div>
+                <div class="c-Phone-rowsub">Live beeld →</div>
+              </div>
+            </div>
+
+            <div class="c-Phone-map">
+              <div class="c-Phone-map-dot"></div>
+              <div style="position:absolute;bottom:0.6rem;left:0.6rem;font-size:0.5rem;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:0.08em;text-transform:uppercase;">Locatie</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── MARQUEE ─── -->
+  <div class="c-Marquee" aria-hidden="true">
+    <div class="c-Marquee-track">
+      <div class="c-Marquee-item">Veilig<span>◆</span></div>
+      <div class="c-Marquee-item">Waterbestendig<span>◆</span></div>
+      <div class="c-Marquee-item">IP65<span>◆</span></div>
+      <div class="c-Marquee-item">Slimme brievenbus<span>◆</span></div>
+      <div class="c-Marquee-item">Nooit meer missen<span>◆</span></div>
+      <div class="c-Marquee-item">5 jaar garantie<span>◆</span></div>
+      <div class="c-Marquee-item">Gemaakt in Europa<span>◆</span></div>
+      <div class="c-Marquee-item">Veilig<span>◆</span></div>
+      <div class="c-Marquee-item">Waterbestendig<span>◆</span></div>
+      <div class="c-Marquee-item">IP65<span>◆</span></div>
+      <div class="c-Marquee-item">Slimme brievenbus<span>◆</span></div>
+      <div class="c-Marquee-item">Nooit meer missen<span>◆</span></div>
+      <div class="c-Marquee-item">5 jaar garantie<span>◆</span></div>
+      <div class="c-Marquee-item">Gemaakt in Europa<span>◆</span></div>
+    </div>
+  </div>
+
+  <!-- ─── GUARANTEE ─── -->
+  <section class="c-Guarantee" id="garant">
+    <div class="c-Guarantee-inner">
+      <div class="c-Guarantee-img js-reveal">
+        <div class="c-Guarantee-imgWrap">
+          <img src="https://placehold.co/560x700/1e1e1e/9ea29f?text=Custo+Buiteninstallatie" alt="Custo buiteninstallatie" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="c-Guarantee-imgTag">Custo® — Buiteninstallatie</div>
+        </div>
+      </div>
+
+      <div class="c-Guarantee-copy js-reveal" style="transition-delay:0.15s">
+        <div class="c-Guarantee-eyebrow">Onze garantie</div>
+        <h2 class="c-Guarantee-headline">
+          Custo® is gecreëerd door experts & gefabriceerd met een unieke visie op de toekomst.
+        </h2>
+        <p class="c-Guarantee-body">
+          Wij geloven dat elke pakketlevering vlekkeloos moet verlopen. Custo staat garant voor kwaliteit — van het eerste ontwerp tot de installatie bij u thuis. Als er iets misgaat, lossen wij het op. Zonder gedoe.
+        </p>
+        <div class="c-Guarantee-stats">
+          <div class="c-Stat">
+            <div class="c-Stat-num">98%</div>
+            <div class="c-Stat-label">Tevredenheidsscore<br>bij klanten</div>
+          </div>
+          <div class="c-Stat">
+            <div class="c-Stat-num">5 jr</div>
+            <div class="c-Stat-label">Volledige garantie<br>op product & app</div>
+          </div>
+          <div class="c-Stat">
+            <div class="c-Stat-num">24/7</div>
+            <div class="c-Stat-label">Klantenservice<br>wanneer u het nodig hebt</div>
+          </div>
+          <div class="c-Stat">
+            <div class="c-Stat-num">50k+</div>
+            <div class="c-Stat-label">Tevreden klanten<br>door heel Nederland</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPERTS ─── -->
+  <section class="c-Experts" id="experts">
+    <div class="c-Experts-inner">
+      <div class="c-Experts-head">
+        <h2 class="c-Experts-headline js-reveal">
+          Wat onze<br>klanten zeggen.
+        </h2>
+        <p class="c-Experts-sub js-reveal" style="transition-delay:0.1s">
+          Meer dan 50.000 tevreden gebruikers in Nederland vertrouwen op Custo voor hun dagelijkse bezorgingen.
+        </p>
+      </div>
+      <div class="c-Experts-grid">
+
+        <div class="c-ExpertCard js-reveal">
+          <div class="c-ExpertCard-avatar">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" fill="#b0b5b2"/>
+              <circle cx="24" cy="18" r="10" fill="#8a8f8c"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#8a8f8c"/>
+            </svg>
+          </div>
+          <div class="c-ExpertCard-name">Marieke van den Berg</div>
+          <div class="c-ExpertCard-role">Thuiswerker, Amsterdam</div>
+          <p class="c-ExpertCard-quote">"Eindelijk geen pakketjes meer missen. De Custo werkt perfect — ik zie alles via de app en mijn pakketjes zijn altijd droog en veilig."</p>
+        </div>
+
+        <div class="c-ExpertCard js-reveal" style="transition-delay:0.1s">
+          <div class="c-ExpertCard-avatar">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" fill="#a0a8a5"/>
+              <circle cx="24" cy="18" r="10" fill="#7a8280"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#7a8280"/>
+            </svg>
+          </div>
+          <div class="c-ExpertCard-name">Thomas Hendriks</div>
+          <div class="c-ExpertCard-role">Ondernemer, Rotterdam</div>
+          <p class="c-ExpertCard-quote">"De installatie was eenvoudig en binnen een halfuur klaar. De app is intuïtief en de notificaties zijn onmisbaar geworden voor mij."</p>
+        </div>
+
+        <div class="c-ExpertCard js-reveal" style="transition-delay:0.2s">
+          <div class="c-ExpertCard-avatar">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" fill="#9ea5a2"/>
+              <circle cx="24" cy="18" r="10" fill="#7e8583"/>
+              <ellipse cx="24" cy="42" rx="16" ry="12" fill="#7e8583"/>
+            </svg>
+          </div>
+          <div class="c-ExpertCard-name">Linda Smeets</div>
+          <div class="c-ExpertCard-role">Gepensioneerd, Utrecht</div>
+          <p class="c-ExpertCard-quote">"Custo heeft mijn leven echt makkelijker gemaakt. Geen zorgen meer over bezorgingen als ik weg ben. Geweldig product met uitstekende service."</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CLOSING HERO ─── -->
+  <section class="c-ClosingHero" id="bestellen">
+    <div class="c-ClosingHero-inner">
+      <h2 class="c-ClosingHero-headline js-reveal">
+        Bestel<br>online,<br>overal<br>je wil.<br><em>Nu al.</em>
+      </h2>
+      <div class="c-ClosingHero-right js-reveal" style="transition-delay:0.15s">
+        <p class="c-ClosingHero-body">
+          Prijs vanaf €249 incl. BTW. Gratis levering in heel Nederland. Installatie handleiding inclusief — of kies voor professionele installatie door één van onze installatiespecialisten bij u thuis.
+        </p>
+        <div class="c-ClosingHero-actions">
+          <a href="#" class="c-Btn c-Btn--primary">Nu bestellen</a>
+          <a href="#product" class="c-Btn c-Btn--ghost">Meer informatie</a>
+        </div>
+      </div>
+    </div>
+    <!-- Ghost large type -->
+    <div style="position:absolute;bottom:-0.15em;right:-0.05em;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(12rem,20vw,22rem);line-height:1;color:rgba(255,255,255,0.03);pointer-events:none;letter-spacing:-0.04em;user-select:none;" aria-hidden="true">C®</div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="c-Footer">
+    <div class="c-Footer-inner">
+      <div class="c-Footer-top">
+        <div class="c-Footer-brand">
+          <a href="#" class="c-Footer-logo">Custo®</a>
+          <p class="c-Footer-tagline">De slimste brievenbus voor jouw pakketjes. Nooit meer een levering missen.</p>
+        </div>
+        <div class="c-Footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">Custo® 1</a></li>
+            <li><a href="#">Specificaties</a></li>
+            <li><a href="#">Installatie</a></li>
+            <li><a href="#">App</a></li>
+          </ul>
+        </div>
+        <div class="c-Footer-col">
+          <h4>Bedrijf</h4>
+          <ul>
+            <li><a href="#">Over ons</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Pers</a></li>
+            <li><a href="#">Carrière</a></li>
+          </ul>
+        </div>
+        <div class="c-Footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Garantie</a></li>
+            <li><a href="#">Dealers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="c-Footer-bottom">
+        <div class="c-Footer-copy">© 2026 Custo B.V. — Alle rechten voorbehouden</div>
+        <div class="c-Footer-legal">
+          <a href="#">Privacybeleid</a>
+          <a href="#">Algemene voorwaarden</a>
+          <a href="#">Cookiebeleid</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── NAV SCROLL ───
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ─── SCROLL REVEAL ───
+    const revealEls = document.querySelectorAll('.js-reveal');
+
+    // Mark ALL elements visible immediately — ensures full-page screenshots capture everything.
+    // In a live browser the page-load animations still play (0.6s transition).
+    revealEls.forEach(el => el.classList.add('is-visible'));
+
+    // ─── HERO PARALLAX ───
+    const wordmark = document.querySelector('.c-HomeHero-wordmark');
+    const product  = document.querySelector('.c-HomeHero-product');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (wordmark) wordmark.style.transform = `translateY(calc(-54% + ${y * 0.18}px))`;
+      if (product)  product.style.transform  = `translateY(calc(2% + ${y * -0.12}px))`;
+    }, { passive: true });
+
+    // ─── VH FIX (mobile) ───
+    function setVH() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    }
+    setVH();
+    window.addEventListener('resize', setVH, { passive: true });
+  </script>
+
+</body>
+</html>

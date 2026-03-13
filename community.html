@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — Etion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Sentient';
+      src: url('brand_assets/Sentient-Regular.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:  #1d1d1b;
+      --lime:  #c8d432;
+      --cyan:  #14b9d5;
+      --cream: #f4f3ee;
+      --mid:   #edecea;
+      --muted: #8a8a7e;
+      --white: #ffffff;
+      --r-sm:  8px;
+      --r-md:  16px;
+      --r-lg:  24px;
+      --r-xl:  40px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.3s;
+    }
+    .nav-logo svg { height: 28px; width: auto; }
+    .nav-logo svg path, .nav-logo svg rect, .nav-logo svg polygon { fill: var(--white); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-cta { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: none;
+    }
+    .btn-lime { background: var(--lime); color: var(--dark); }
+    .btn-lime:hover { background: #d9e840; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+    .btn-dark { background: var(--dark); color: var(--white); }
+    .btn-dark:hover { background: #2e2e2b; transform: translateY(-1px); }
+    .btn-lg { padding: 16px 36px; font-size: 16px; }
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--dark);
+      border: 1.5px solid rgba(29,29,27,0.25);
+    }
+    .btn-outline-dark:hover { border-color: var(--dark); background: rgba(29,29,27,0.04); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      background: var(--dark);
+      padding: 160px 48px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      bottom: -150px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(20,185,213,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-hero-inner {}
+    .page-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(200,212,50,0.12);
+      color: var(--lime);
+      border: 1px solid rgba(200,212,50,0.25);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .page-label-dot {
+      width: 6px; height: 6px;
+      background: var(--lime);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .page-headline {
+      font-family: 'Sentient', serif;
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      max-width: 820px;
+      margin-bottom: 28px;
+    }
+    .page-headline em { font-style: italic; color: var(--lime); }
+    .page-sub {
+      font-size: 18px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+      max-width: 520px;
+      font-weight: 300;
+      margin-bottom: 44px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+    }
+    .hero-stat-num {
+      font-family: 'Sentient', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .hero-stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+    .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.1); }
+
+    /* ─── SECTION SHELL ─── */
+    .section { padding: 100px 48px; }
+    .section-inner {}
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Sentient', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--muted); }
+    .section-body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(29,29,27,0.65);
+      max-width: 580px;
+      font-weight: 300;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how {
+      background: var(--cream);
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .how-step {
+      display: flex;
+      gap: 24px;
+      padding: 28px 28px;
+      background: var(--white);
+      border-radius: var(--r-lg);
+      transition: box-shadow 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .how-step:hover {
+      box-shadow: 0 16px 48px rgba(29,29,27,0.08);
+      transform: translateX(6px);
+    }
+    .how-step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .how-step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .how-step-body {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+    .how-visual {
+      position: sticky;
+      top: 100px;
+    }
+    .credit-demo {
+      background: var(--dark);
+      border-radius: var(--r-xl);
+      padding: 40px;
+      color: var(--white);
+    }
+    .credit-demo-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 24px;
+    }
+    .credit-exchange {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--r-md);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .credit-exchange:last-of-type { margin-bottom: 28px; }
+    .credit-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .credit-exchange-info { flex: 1; }
+    .credit-task-name { font-size: 13px; font-weight: 500; color: var(--white); }
+    .credit-task-who { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .credit-amount {
+      font-family: 'Sentient', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--lime);
+    }
+    .credit-balance {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .credit-balance-label { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .credit-balance-num {
+      font-family: 'Sentient', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .credit-balance-num span { color: var(--lime); font-size: 16px; margin-left: 4px; }
+
+    /* ─── NEIGHBORHOODS ─── */
+    .neighborhoods {
+      background: var(--mid);
+    }
+    .neighborhoods-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      gap: 40px;
+    }
+    .neighborhood-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .neighborhood-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.22s, box-shadow 0.22s;
+      cursor: pointer;
+    }
+    .neighborhood-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(29,29,27,0.08);
+    }
+    .neighborhood-card.active {
+      background: var(--dark);
+      color: var(--white);
+    }
+    .neighborhood-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .neighborhood-card.active .neighborhood-name { color: var(--white); }
+    .neighborhood-city {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .neighborhood-card.active .neighborhood-city { color: rgba(255,255,255,0.45); }
+    .neighborhood-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 6px;
+    }
+    .neighborhood-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .neighborhood-stat-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      font-family: 'Sentient', serif;
+      letter-spacing: -0.01em;
+    }
+    .neighborhood-card.active .neighborhood-stat-num { color: var(--lime); }
+    .neighborhood-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .neighborhood-card.active .neighborhood-stat-label { color: rgba(255,255,255,0.4); }
+    .neighborhood-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #4a8000;
+      background: rgba(200,212,50,0.15);
+      padding: 3px 8px;
+      border-radius: 100px;
+      margin-top: 4px;
+      width: fit-content;
+    }
+    .neighborhood-badge-dot { width: 4px; height: 4px; background: var(--lime); border-radius: 50%; }
+
+    /* ─── STORIES ─── */
+    .stories {
+      background: var(--cream);
+    }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .story-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 56px rgba(29,29,27,0.09);
+    }
+    .story-quote {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--dark);
+      flex: 1;
+      margin-bottom: 24px;
+    }
+    .story-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(29,29,27,0.07);
+    }
+    .story-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .story-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .story-location { font-size: 12px; color: var(--muted); }
+    .story-tag {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--mid);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ─── AMBASSADORS ─── */
+    .ambassadors {
+      background: var(--dark);
+      padding: 100px 48px;
+    }
+    .ambassadors .section-title { color: var(--white); }
+    .ambassadors .section-label { color: rgba(255,255,255,0.35); }
+    .ambassadors .section-body { color: rgba(255,255,255,0.45); }
+    .ambassador-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .ambassador-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r-lg);
+      padding: 32px 28px;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .ambassador-card:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-4px);
+    }
+    .ambassador-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .ambassador-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .ambassador-name { font-size: 16px; font-weight: 600; color: var(--white); }
+    .ambassador-area { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .ambassador-bio { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+    .ambassador-stats {
+      display: flex;
+      gap: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .ambassador-stat-num {
+      font-family: 'Sentient', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--lime);
+    }
+    .ambassador-stat-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+    /* ─── JOIN CTA ─── */
+    .join-cta {
+      background: var(--lime);
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .join-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 60px;
+      align-items: center;
+    }
+    .join-heading {
+      font-family: 'Sentient', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+    .join-sub { font-size: 17px; color: rgba(29,29,27,0.6); max-width: 460px; line-height: 1.6; }
+    .join-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
+    :root { --footer-h: 500px; }
+    .footer-wrap { position: relative; height: var(--footer-h); clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%); }
+    .footer-scroll-spacer { position: relative; height: calc(100vh + var(--footer-h)); top: -100vh; }
+    .footer-sticky { position: sticky; top: calc(100vh - var(--footer-h)); height: var(--footer-h); }
+    footer { background: var(--dark); padding: 52px 48px 40px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); gap: 60px; }
+    .footer-brand { flex-shrink: 0; width: 260px; }
+    .footer-logo svg { height: 28px; width: auto; display: block; }
+    .footer-logo svg path, .footer-logo svg rect, .footer-logo svg polygon { fill: var(--white); }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 14px; line-height: 1.6; }
+    .footer-brand-socials { display: flex; gap: 14px; margin-top: 24px; }
+    .footer-brand-socials a { color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; }
+    .footer-brand-socials a:hover { color: var(--white); }
+    .footer-brand-socials svg { width: 18px; height: 18px; }
+    .footer-nav { display: grid; grid-template-columns: repeat(4, 140px); gap: 40px; }
+    .footer-col-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 18px; }
+    .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col-links a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; display: inline-block; transition: color 0.2s, transform 0.22s; }
+    .footer-col-links a:hover { color: var(--white); transform: translateX(6px); }
+    .footer-bottom { display: flex; flex-direction: column; gap: 16px; }
+    .footer-logo-full { width: 100%; display: block; line-height: 0; overflow: hidden; height: 110px; }
+    .footer-logo-full svg { width: 100%; height: auto; display: block; }
+    .footer-logo-full svg path, .footer-logo-full svg rect, .footer-logo-full svg polygon { fill: var(--white); opacity: 0.18; }
+    .footer-meta { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+    .footer-right { display: flex; align-items: center; gap: 20px; }
+    .footer-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,0.22); }
+    .footer-dot { width: 6px; height: 6px; background: var(--lime); border-radius: 50%; }
+    .footer-socials { display: flex; gap: 8px; }
+    .footer-social-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px; font-weight: 700; transition: background 0.2s, color 0.2s, transform 0.2s; }
+    .footer-social-btn:hover { background: var(--lime); color: var(--dark); transform: scale(1.18) rotate(12deg); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      :root { --footer-h: 680px; }
+      nav { padding: 0 28px; }
+      .nav-links { display: none; }
+      .page-hero, .section, .ambassadors, .join-cta { padding-left: 28px; padding-right: 28px; }
+      .how-grid { grid-template-columns: 1fr; gap: 40px; }
+      .how-visual { position: static; }
+      .neighborhood-grid { grid-template-columns: repeat(2, 1fr); }
+      .stories-grid { grid-template-columns: repeat(2, 1fr); }
+      .ambassador-grid { grid-template-columns: repeat(2, 1fr); }
+      .join-inner { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; gap: 32px; }
+      .footer-brand { width: 100%; }
+      .footer-nav { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .footer-logo-full { height: 70px; }
+      footer { padding: 40px 28px 32px; }
+    }
+    @media (max-width: 640px) {
+      :root { --footer-h: 860px; }
+      .page-hero { padding: 120px 20px 80px; }
+      .section, .ambassadors, .join-cta { padding: 72px 20px; }
+      .hero-stats { flex-wrap: wrap; gap: 28px; }
+      .hero-stat-divider { display: none; }
+      .neighborhood-grid { grid-template-columns: 1fr 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .ambassador-grid { grid-template-columns: 1fr; }
+      .footer-nav { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .footer-logo-full { height: 44px; }
+      .footer-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+      footer { padding: 40px 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="etion.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+        <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+        <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+        <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+        <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+        <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+        <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+        <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+        <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="etion.html#how">How it works</a></li>
+      <li><a href="etion.html#tasks">Tasks</a></li>
+      <li><a href="community.html" class="active">Community</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Log in</a>
+      <a href="#" class="btn btn-lime">Join free</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-label"><div class="page-label-dot"></div> Living community</div>
+      <h1 class="page-headline">Your neighborhood<br>is <em>already here</em>.</h1>
+      <p class="page-sub">Etion connects people who live near each other. Not followers, not reviews — real neighbors doing real things for each other.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">47</div>
+          <div class="hero-stat-label">Active neighborhoods</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div>
+          <div class="hero-stat-num">3,200+</div>
+          <div class="hero-stat-label">Members</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div>
+          <div class="hero-stat-num">12k+</div>
+          <div class="hero-stat-label">Tasks completed</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div>
+          <div class="hero-stat-num">9 cities</div>
+          <div class="hero-stat-label">Across the Netherlands</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (community perspective) -->
+  <section class="section how" id="how">
+    <div class="section-inner">
+      <div class="how-grid">
+        <div>
+          <div class="section-label">How it works</div>
+          <h2 class="section-title">Help flows<br><em>both ways</em></h2>
+          <p class="section-body">Every member is both a helper and someone who gets helped. The credit system keeps it fair without making it transactional.</p>
+          <div class="how-steps">
+            <div class="how-step">
+              <div class="how-step-num">1</div>
+              <div>
+                <div class="how-step-title">Join your neighborhood</div>
+                <p class="how-step-body">Sign up and get matched to your local Etion neighborhood — the people living within a few blocks of you.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">2</div>
+              <div>
+                <div class="how-step-title">Post or offer a task</div>
+                <p class="how-step-body">Need help moving a sofa? Got a free hour and a drill? Post a task or browse open ones near you.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">3</div>
+              <div>
+                <div class="how-step-title">Exchange credits, not cash</div>
+                <p class="how-step-body">When help is given, credits change hands. Use yours to get help back — or save them for a rainy day.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">4</div>
+              <div>
+                <div class="how-step-title">Build your reputation</div>
+                <p class="how-step-body">Ratings are left by both sides. The more you help, the stronger your standing in the community.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="how-visual">
+          <div class="credit-demo">
+            <div class="credit-demo-title">Recent exchanges — Jordaan West</div>
+            <div class="credit-exchange">
+              <div class="credit-avatar" style="background:var(--lime);">MR</div>
+              <div class="credit-exchange-info">
+                <div class="credit-task-name">Helped carry groceries up 3 flights</div>
+                <div class="credit-task-who">Marie helped Piet · 30 min ago</div>
+              </div>
+              <div class="credit-amount">+2 cr</div>
+            </div>
+            <div class="credit-exchange">
+              <div class="credit-avatar" style="background:#14b9d5;">JK</div>
+              <div class="credit-exchange-info">
+                <div class="credit-task-name">Fixed a leaky tap</div>
+                <div class="credit-task-who">Jan helped Fatima · 2 hrs ago</div>
+              </div>
+              <div class="credit-amount">+4 cr</div>
+            </div>
+            <div class="credit-exchange">
+              <div class="credit-avatar" style="background:#f0196e; color:white;">SL</div>
+              <div class="credit-exchange-info">
+                <div class="credit-task-name">Picked up prescription from pharmacy</div>
+                <div class="credit-task-who">Sara helped Bert · Yesterday</div>
+              </div>
+              <div class="credit-amount">+3 cr</div>
+            </div>
+            <div class="credit-balance">
+              <div>
+                <div class="credit-balance-label">Your current balance</div>
+              </div>
+              <div class="credit-balance-num">12 <span>credits</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEIGHBORHOODS -->
+  <section class="section neighborhoods" id="neighborhoods">
+    <div class="section-inner">
+      <div class="neighborhoods-header">
+        <div>
+          <div class="section-label">Where we're active</div>
+          <h2 class="section-title">Find your<br><em>neighborhood</em></h2>
+        </div>
+        <p class="section-body">We're growing district by district. Don't see yours? Apply to start a new one.</p>
+      </div>
+      <div class="neighborhood-grid">
+        <div class="neighborhood-card active">
+          <div class="neighborhood-name">Jordaan West</div>
+          <div class="neighborhood-city">Amsterdam</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">142</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">890</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Most active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">De Pijp</div>
+          <div class="neighborhood-city">Amsterdam</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">118</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">710</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Oost-Centrum</div>
+          <div class="neighborhood-city">Amsterdam</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">97</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">540</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Kralingen</div>
+          <div class="neighborhood-city">Rotterdam</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">88</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">430</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Delfshaven</div>
+          <div class="neighborhood-city">Rotterdam</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">74</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">380</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Centrum-West</div>
+          <div class="neighborhood-city">Den Haag</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">62</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">290</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Active</div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Wittevrouwen</div>
+          <div class="neighborhood-city">Utrecht</div>
+          <div class="neighborhood-stats">
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">55</div><div class="neighborhood-stat-label">Members</div></div>
+            <div class="neighborhood-stat"><div class="neighborhood-stat-num">210</div><div class="neighborhood-stat-label">Tasks</div></div>
+          </div>
+          <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> Growing</div>
+        </div>
+        <div class="neighborhood-card" style="background:var(--cream); border:1.5px dashed rgba(29,29,27,0.18); align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+          <div style="font-size:24px; margin-bottom:8px;">＋</div>
+          <div style="font-size:14px; font-weight:600; color:var(--dark);">Start a new neighborhood</div>
+          <div style="font-size:13px; color:var(--muted); margin-top:4px;">Apply to bring Etion to your area</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBER STORIES -->
+  <section class="section stories" id="stories">
+    <div class="section-inner">
+      <div class="section-label">From the community</div>
+      <h2 class="section-title">What members say</h2>
+      <div class="stories-grid">
+        <div class="story-card">
+          <p class="story-quote">"I posted a task at 9am, and by 10am my neighbor had already helped me move a bed frame to the attic. Can't believe this exists."</p>
+          <div class="story-footer">
+            <div class="story-avatar">ML</div>
+            <div>
+              <div class="story-name">Miriam L.</div>
+              <div class="story-location">Jordaan, Amsterdam</div>
+            </div>
+            <div class="story-tag">Moving</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <p class="story-quote">"I was skeptical — I've lived in this city for 5 years and barely knew anyone. Six months on Etion and I've got real friends three streets over."</p>
+          <div class="story-footer">
+            <div class="story-avatar" style="background:#14b9d5;">DM</div>
+            <div>
+              <div class="story-name">David M.</div>
+              <div class="story-location">Groningen</div>
+            </div>
+            <div class="story-tag">Connection</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <p class="story-quote">"My dog got walked, my groceries got picked up, and I made three friends. All in one week. Community is underrated."</p>
+          <div class="story-footer">
+            <div class="story-avatar" style="background:#f0196e; color:white;">KB</div>
+            <div>
+              <div class="story-name">Kevin B.</div>
+              <div class="story-location">Rotterdam</div>
+            </div>
+            <div class="story-tag">Everyday help</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <p class="story-quote">"As a senior, I was worried about asking strangers for help. But everyone I've met through Etion has been wonderful. Warm, reliable people."</p>
+          <div class="story-footer">
+            <div class="story-avatar" style="background:var(--lime);">HV</div>
+            <div>
+              <div class="story-name">Hanny V.</div>
+              <div class="story-location">Den Haag</div>
+            </div>
+            <div class="story-tag">Seniors</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <p class="story-quote">"I help fix bikes on weekends and use my credits to get someone to cook a meal when I'm exhausted from work. This is just... smart."</p>
+          <div class="story-footer">
+            <div class="story-avatar" style="background:#14b9d5;">LS</div>
+            <div>
+              <div class="story-name">Lena S.</div>
+              <div class="story-location">Eindhoven</div>
+            </div>
+            <div class="story-tag">Skills swap</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <p class="story-quote">"My neighbor helped me hang 12 IKEA shelves. I helped her son with his Dutch for school. We're friends now. No money changed hands."</p>
+          <div class="story-footer">
+            <div class="story-avatar" style="background:#f0196e; color:white;">SW</div>
+            <div>
+              <div class="story-name">Sophie W.</div>
+              <div class="story-location">Maastricht</div>
+            </div>
+            <div class="story-tag">Exchange</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:40px;">
+        <a href="blog.html" class="btn btn-dark">Read more stories →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AMBASSADORS -->
+  <section class="ambassadors" id="ambassadors">
+    <div class="section-inner">
+      <div class="section-label">Community leaders</div>
+      <h2 class="section-title">Our ambassadors</h2>
+      <p class="section-body">Ambassadors are members who go the extra mile to grow and maintain their local Etion community.</p>
+      <div class="ambassador-grid">
+        <div class="ambassador-card">
+          <div class="ambassador-header">
+            <div class="ambassador-avatar">RF</div>
+            <div>
+              <div class="ambassador-name">Roos Feldman</div>
+              <div class="ambassador-area">Jordaan West, Amsterdam</div>
+            </div>
+          </div>
+          <p class="ambassador-bio">Former social worker turned neighborhood organizer. Roos grew Jordaan West from 20 to 142 members in under a year by hosting monthly street meetings.</p>
+          <div class="ambassador-stats">
+            <div><div class="ambassador-stat-num">142</div><div class="ambassador-stat-label">Members onboarded</div></div>
+            <div><div class="ambassador-stat-num">3.2y</div><div class="ambassador-stat-label">With Etion</div></div>
+          </div>
+        </div>
+        <div class="ambassador-card">
+          <div class="ambassador-header">
+            <div class="ambassador-avatar" style="background:#14b9d5;">TW</div>
+            <div>
+              <div class="ambassador-name">Tariq Willems</div>
+              <div class="ambassador-area">Kralingen, Rotterdam</div>
+            </div>
+          </div>
+          <p class="ambassador-bio">Retired teacher who uses Etion to connect students with tutoring and mentoring. Organizes the quarterly neighborhood BBQ that brings 80+ people together.</p>
+          <div class="ambassador-stats">
+            <div><div class="ambassador-stat-num">88</div><div class="ambassador-stat-label">Members onboarded</div></div>
+            <div><div class="ambassador-stat-num">1.8y</div><div class="ambassador-stat-label">With Etion</div></div>
+          </div>
+        </div>
+        <div class="ambassador-card">
+          <div class="ambassador-header">
+            <div class="ambassador-avatar" style="background:#f0196e; color:white;">ZA</div>
+            <div>
+              <div class="ambassador-name">Zara Akhtar</div>
+              <div class="ambassador-area">Centrum-West, Den Haag</div>
+            </div>
+          </div>
+          <p class="ambassador-bio">Architect by day, community builder always. Zara designs public notice boards for her neighborhood and translates Etion onboarding materials into 3 languages.</p>
+          <div class="ambassador-stats">
+            <div><div class="ambassador-stat-num">62</div><div class="ambassador-stat-label">Members onboarded</div></div>
+            <div><div class="ambassador-stat-num">1.1y</div><div class="ambassador-stat-label">With Etion</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:48px;">
+        <a href="#" class="btn btn-lime btn-lg">Become an ambassador</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN CTA -->
+  <section class="join-cta">
+    <div class="join-inner">
+      <div>
+        <h2 class="join-heading">Ready to meet<br>your neighbors?</h2>
+        <p class="join-sub">Join Etion for free. Find your neighborhood, post your first task, and start building something real with the people around you.</p>
+      </div>
+      <div class="join-actions">
+        <a href="#" class="btn btn-dark btn-lg">Join free — takes 2 min</a>
+        <a href="about.html" class="btn btn-outline-dark">Learn about Etion →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-wrap">
+    <div class="footer-scroll-spacer">
+      <div class="footer-sticky">
+        <footer>
+          <div class="footer-top">
+            <div class="footer-brand">
+              <div class="footer-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+                  <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+                  <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+                  <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+                  <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+                  <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+                  <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+                  <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+                  <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+                </svg>
+              </div>
+              <p class="footer-tagline">A community collective for on-demand help — built by neighbors, for neighbors.</p>
+              <div class="footer-brand-socials">
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+                <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+              </div>
+            </div>
+            <nav class="footer-nav">
+              <div>
+                <div class="footer-col-title">Platform</div>
+                <ul class="footer-col-links">
+                  <li><a href="etion.html#how">How it works</a></li>
+                  <li><a href="#">Tasks</a></li>
+                  <li><a href="#">Post a task</a></li>
+                  <li><a href="#">Credits system</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Community</div>
+                <ul class="footer-col-links">
+                  <li><a href="community.html">Community</a></li>
+                  <li><a href="community.html#neighborhoods">Neighborhoods</a></li>
+                  <li><a href="community.html#stories">Member stories</a></li>
+                  <li><a href="community.html#ambassadors">Ambassadors</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-col-links">
+                  <li><a href="about.html">About</a></li>
+                  <li><a href="blog.html">Blog</a></li>
+                  <li><a href="#">Press</a></li>
+                  <li><a href="#">Privacy policy</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Contact</div>
+                <ul class="footer-col-links">
+                  <li><a href="mailto:hello@etion.nl">hello@etion.nl</a></li>
+                  <li><a href="tel:+31201234567">+31 20 123 45 67</a></li>
+                  <li><a href="#">Help center</a></li>
+                  <li><a href="#">Amsterdam, NL</a></li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-logo-full" aria-label="Etion">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+                <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+                <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+                <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+                <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+                <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+                <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+                <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+                <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+              </svg>
+            </div>
+            <div class="footer-meta">
+              <span class="footer-copy">© 2026 Etion. All rights reserved.</span>
+              <div class="footer-right">
+                <div class="footer-badge"><div class="footer-dot"></div> 47 active neighborhoods</div>
+                <div class="footer-socials">
+                  <a href="#" class="footer-social-btn" aria-label="Twitter">X</a>
+                  <a href="#" class="footer-social-btn" aria-label="Instagram">IG</a>
+                  <a href="#" class="footer-social-btn" aria-label="LinkedIn">in</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? 'rgba(255,255,255,0.12)'
+        : 'rgba(255,255,255,0.07)';
+    }, { passive: true });
+  </script>
+</body>
+</html>

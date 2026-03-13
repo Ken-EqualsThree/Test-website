@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading… — Etion Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Sentient';
+      src: url('brand_assets/Sentient-Regular.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:  #1d1d1b;
+      --lime:  #c8d432;
+      --cyan:  #14b9d5;
+      --cream: #f4f3ee;
+      --mid:   #edecea;
+      --muted: #8a8a7e;
+      --white: #ffffff;
+      --r-sm:  8px;
+      --r-md:  16px;
+      --r-lg:  24px;
+      --r-xl:  40px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: var(--dark);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.3s;
+    }
+    .nav-logo svg { height: 28px; width: auto; }
+    .nav-logo svg path, .nav-logo svg rect, .nav-logo svg polygon { fill: var(--white); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: none;
+    }
+    .btn-lime { background: var(--lime); color: var(--dark); }
+    .btn-lime:hover { background: #d9e840; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ─── POST HERO ─── */
+    .post-hero {
+      background: var(--dark);
+      padding: 140px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .post-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,212,50,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .post-hero-inner { max-width: 760px; }
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 32px;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .post-back:hover { color: var(--white); gap: 12px; }
+    .post-back svg { width: 16px; height: 16px; transform: rotate(180deg); }
+    .post-category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(200,212,50,0.12);
+      color: var(--lime);
+      border: 1px solid rgba(200,212,50,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .post-category-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); }
+    .post-hero-title {
+      font-family: 'Sentient', serif;
+      font-size: clamp(34px, 5vw, 60px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+    .post-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .post-author-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .post-author-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .post-author-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .post-author-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+    .post-meta-sep {
+      width: 1px; height: 28px;
+      background: rgba(255,255,255,0.12);
+    }
+    .post-date-block {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ─── COVER IMAGE ─── */
+    .post-cover-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 48px;
+      transform: translateY(-40px);
+    }
+    .post-cover {
+      width: 100%;
+      aspect-ratio: 16/8;
+      object-fit: cover;
+      border-radius: var(--r-xl);
+      display: block;
+      box-shadow: 0 32px 80px rgba(29,29,27,0.18);
+    }
+    .post-cover-placeholder {
+      width: 100%;
+      aspect-ratio: 16/8;
+      border-radius: var(--r-xl);
+      background: linear-gradient(135deg, #e8e7e2 0%, #d8d7d2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      box-shadow: 0 32px 80px rgba(29,29,27,0.18);
+    }
+
+    /* ─── ARTICLE LAYOUT ─── */
+    .post-layout {
+      display: grid;
+      grid-template-columns: 1fr min(680px, 100%) 1fr;
+      padding-bottom: 100px;
+    }
+    .post-layout > * { grid-column: 2; }
+
+    /* ─── BODY CONTENT ─── */
+    .post-body {
+      padding: 0 48px;
+    }
+    .post-excerpt-lead {
+      font-size: 20px;
+      line-height: 1.65;
+      color: var(--muted);
+      font-weight: 300;
+      border-left: 3px solid var(--lime);
+      padding-left: 24px;
+      margin-bottom: 48px;
+    }
+    .post-content { font-size: 17px; line-height: 1.8; color: var(--dark); }
+    .post-content p { margin-bottom: 24px; }
+    .post-content p:last-child { margin-bottom: 0; }
+    .post-content h1 {
+      font-family: 'Sentient', serif;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 52px 0 20px;
+      color: var(--dark);
+    }
+    .post-content h2 {
+      font-family: 'Sentient', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin: 44px 0 16px;
+      color: var(--dark);
+    }
+    .post-content h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      color: var(--dark);
+    }
+    .post-content h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 28px 0 10px;
+      color: var(--muted);
+    }
+    .post-content blockquote {
+      border-left: 3px solid var(--lime);
+      padding: 4px 0 4px 24px;
+      margin: 32px 0;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .post-content ul, .post-content ol {
+      padding-left: 24px;
+      margin-bottom: 24px;
+    }
+    .post-content li { margin-bottom: 8px; }
+    .post-content strong { font-weight: 600; color: var(--dark); }
+    .post-content em { font-style: italic; }
+    .post-content a { color: var(--dark); text-decoration: underline; text-underline-offset: 3px; }
+    .post-content a:hover { color: #5a6000; }
+    .post-content img {
+      width: 100%;
+      border-radius: var(--r-lg);
+      margin: 32px 0;
+      display: block;
+    }
+    .post-content code {
+      background: var(--mid);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    /* ─── POST FOOTER ─── */
+    .post-footer {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(29,29,27,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 40px 48px 0;
+    }
+    .post-footer-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .post-footer-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      flex-shrink: 0;
+    }
+    .post-footer-author-name { font-size: 15px; font-weight: 600; color: var(--dark); }
+    .post-footer-author-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .post-footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(29,29,27,0.2);
+      color: var(--dark);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .post-footer-back:hover { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+    /* ─── MORE POSTS ─── */
+    .more-posts {
+      background: var(--mid);
+      padding: 80px 48px;
+    }
+    .more-posts-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .more-posts-title {
+      font-family: 'Sentient', serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--dark);
+    }
+    .more-posts-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .more-posts-link:hover { color: var(--dark); }
+    .more-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .more-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .more-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(29,29,27,0.09); }
+    .more-card-thumb {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--mid) 0%, #e0dfda 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .more-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .more-card-body { padding: 22px 22px 18px; flex: 1; display: flex; flex-direction: column; }
+    .more-card-cat {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .more-card-title {
+      font-family: 'Sentient', serif;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--dark);
+      flex: 1;
+      margin-bottom: 14px;
+    }
+    .more-card-date { font-size: 12px; color: rgba(29,29,27,0.35); }
+
+    /* ─── SKELETON LOADING ─── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--mid) 25%, #e5e4df 50%, var(--mid) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skeleton-hero { padding: 140px 48px 80px; background: var(--dark); }
+    .skeleton-block { background: rgba(255,255,255,0.08); border-radius: 8px; margin-bottom: 16px; }
+
+    /* ─── ERROR STATE ─── */
+    .post-error {
+      padding: 160px 48px 120px;
+      text-align: center;
+    }
+    .post-error-code {
+      font-family: 'Sentient', serif;
+      font-size: 96px;
+      font-weight: 900;
+      color: var(--mid);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .post-error h2 {
+      font-family: 'Sentient', serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .post-error p { color: var(--muted); margin-bottom: 32px; }
+
+    /* ─── FOOTER ─── */
+    :root { --footer-h: 500px; }
+    .footer-wrap { position: relative; height: var(--footer-h); clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%); }
+    .footer-scroll-spacer { position: relative; height: calc(100vh + var(--footer-h)); top: -100vh; }
+    .footer-sticky { position: sticky; top: calc(100vh - var(--footer-h)); height: var(--footer-h); }
+    footer { background: var(--dark); padding: 52px 48px 40px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); gap: 60px; }
+    .footer-brand { flex-shrink: 0; width: 260px; }
+    .footer-logo svg { height: 28px; width: auto; display: block; }
+    .footer-logo svg path, .footer-logo svg rect, .footer-logo svg polygon { fill: var(--white); }
+    .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 14px; line-height: 1.6; }
+    .footer-nav { display: grid; grid-template-columns: repeat(4, 140px); gap: 40px; }
+    .footer-col-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 18px; }
+    .footer-col-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col-links a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; display: inline-block; transition: color 0.2s, transform 0.22s; }
+    .footer-col-links a:hover { color: var(--white); transform: translateX(6px); }
+    .footer-bottom { display: flex; flex-direction: column; gap: 16px; }
+    .footer-logo-full { width: 100%; display: block; line-height: 0; overflow: hidden; height: 110px; }
+    .footer-logo-full svg { width: 100%; height: auto; display: block; }
+    .footer-logo-full svg path, .footer-logo-full svg rect, .footer-logo-full svg polygon { fill: var(--white); opacity: 0.18; }
+    .footer-meta { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+    .footer-right { display: flex; align-items: center; gap: 20px; }
+    .footer-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(255,255,255,0.22); }
+    .footer-dot { width: 6px; height: 6px; background: var(--lime); border-radius: 50%; }
+    .footer-socials { display: flex; gap: 8px; }
+    .footer-social-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px; font-weight: 700; transition: background 0.2s, color 0.2s, transform 0.2s; }
+    .footer-social-btn:hover { background: var(--lime); color: var(--dark); transform: scale(1.18) rotate(12deg); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      :root { --footer-h: 680px; }
+      nav { padding: 0 28px; }
+      .nav-links { display: none; }
+      .post-hero { padding: 120px 28px 60px; }
+      .post-cover-wrap { padding: 0 28px; }
+      .post-body { padding: 0 28px; }
+      .post-footer { padding: 40px 28px 0; }
+      .more-posts { padding: 60px 28px; }
+      .more-posts-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { flex-direction: column; gap: 32px; }
+      .footer-brand { width: 100%; }
+      .footer-nav { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .footer-logo-full { height: 70px; }
+      footer { padding: 40px 28px 32px; }
+    }
+    @media (max-width: 640px) {
+      :root { --footer-h: 860px; }
+      .post-hero { padding: 110px 20px 52px; }
+      .post-hero-title { font-size: 30px; }
+      .post-cover-wrap { padding: 0 20px; transform: translateY(-24px); }
+      .post-cover, .post-cover-placeholder { border-radius: var(--r-lg); }
+      .post-body { padding: 0 20px; }
+      .post-footer { padding: 40px 20px 0; flex-direction: column; align-items: flex-start; }
+      .more-posts { padding: 52px 20px; }
+      .more-posts-grid { grid-template-columns: 1fr; }
+      .footer-nav { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .footer-logo-full { height: 44px; }
+      .footer-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+      footer { padding: 40px 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="etion.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+        <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+        <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+        <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+        <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+        <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+        <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+        <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+        <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="etion.html#how">How it works</a></li>
+      <li><a href="etion.html#tasks">Tasks</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Log in</a>
+      <a href="#" class="btn btn-lime">Join free</a>
+    </div>
+  </nav>
+
+  <!-- POST CONTENT (injected by JS) -->
+  <div id="post-root"></div>
+
+  <!-- MORE POSTS -->
+  <section class="more-posts" id="more-posts" style="display:none">
+    <div class="more-posts-header">
+      <div class="more-posts-title">More stories</div>
+      <a href="blog.html" class="more-posts-link">View all →</a>
+    </div>
+    <div class="more-posts-grid" id="more-posts-grid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-wrap">
+    <div class="footer-scroll-spacer">
+      <div class="footer-sticky">
+        <footer>
+          <div class="footer-top">
+            <div class="footer-brand">
+              <div class="footer-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+                  <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+                  <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+                  <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+                  <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+                  <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+                  <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+                  <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+                  <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+                </svg>
+              </div>
+              <p class="footer-tagline">A community collective for on-demand help — built by neighbors, for neighbors.</p>
+            </div>
+            <nav class="footer-nav">
+              <div>
+                <div class="footer-col-title">Platform</div>
+                <ul class="footer-col-links">
+                  <li><a href="etion.html#how">How it works</a></li>
+                  <li><a href="#">Tasks</a></li>
+                  <li><a href="#">Post a task</a></li>
+                  <li><a href="#">Credits system</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Community</div>
+                <ul class="footer-col-links">
+                  <li><a href="community.html">Community</a></li>
+                  <li><a href="community.html#neighborhoods">Neighborhoods</a></li>
+                  <li><a href="community.html#stories">Member stories</a></li>
+                  <li><a href="community.html#ambassadors">Ambassadors</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-col-links">
+                  <li><a href="about.html">About</a></li>
+                  <li><a href="blog.html">Blog</a></li>
+                  <li><a href="#">Press</a></li>
+                  <li><a href="#">Privacy policy</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="footer-col-title">Contact</div>
+                <ul class="footer-col-links">
+                  <li><a href="mailto:hello@etion.nl">hello@etion.nl</a></li>
+                  <li><a href="#">Help center</a></li>
+                  <li><a href="#">Amsterdam, NL</a></li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-logo-full" aria-label="Etion">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 610.33 324.27">
+                <path d="M234.08,213.39c-2.27,0-4.22-.3-5.89-.89-1.67-.59-3.05-1.47-4.14-2.64-1.1-1.16-1.94-2.62-2.5-4.38-.56-1.75-.85-3.8-.85-6.13v-46.35h23.18v-17.33h-23.18v-31.84l-18.94,9.21v22.62h-14.3v17.33h14.3v48.06c0,5.08.58,9.53,1.74,13.33,1.17,3.8,2.89,6.97,5.19,9.51,2.29,2.54,5.18,4.45,8.67,5.7,3.48,1.26,7.52,1.88,12.1,1.88,3.02,0,5.78-.14,8.29-.42,2.51-.29,4.84-.71,6.97-1.28v-17.99c-1.88.5-3.72.89-5.51,1.18-1.79.28-3.5.42-5.13.42"/>
+                <rect x="260.56" y="135.67" width="18.93" height="94.3"/>
+                <polygon points="94.3 94.3 94.3 229.97 178.8 229.97 178.8 211.13 114.65 211.13 114.65 170.8 170.14 170.8 170.14 153.47 114.65 153.47 114.65 113.05 178.8 113.05 178.8 94.3 94.3 94.3"/>
+                <path d="M341.79,213.08c-16.71,0-30.32-13.6-30.32-30.31s13.6-30.31,30.32-30.31,30.31,13.6,30.31,30.31-13.6,30.31-30.31,30.31M341.79,134.07c-26.9,0-48.71,21.81-48.71,48.71s21.81,48.7,48.71,48.7,48.7-21.81,48.7-48.7-21.81-48.71-48.7-48.71"/>
+                <path d="M270.03,91.24c-6.87,0-12.44,5.57-12.44,12.43s5.56,12.44,12.44,12.44,12.43-5.57,12.43-12.44-5.56-12.43-12.43-12.43"/>
+                <path d="M448.93,133.32h0c-10.63,0-20.18,4.61-26.78,11.94l-4.67-9.59h-14.03v94.3h18.93v-56.39c0-12.07,9.79-21.86,21.86-21.86s21.86,9.79,21.86,21.86v56.39h18.84v-60.64c0-19.89-16.12-36.01-36.01-36.01"/>
+                <path d="M500.48,104.59c-8.57,0-15.54,6.97-15.54,15.54s6.97,15.54,15.54,15.54,15.54-6.97,15.54-15.54-6.97-15.54-15.54-15.54M500.48,132.87c-7.03,0-12.74-5.72-12.74-12.74s5.72-12.74,12.74-12.74,12.74,5.72,12.74,12.74-5.72,12.74-12.74,12.74"/>
+                <path d="M502.93,120.96c1.79-.73,2.84-2.25,2.84-4.19,0-2.7-2.04-4.66-4.85-4.66h-5.69v15.54h2.8v-6.15h2.03l3.46,6.15h3.2l-3.78-6.69ZM502.95,116.81c0,1.17-.93,2.05-2.17,2.05h-2.75v-4.09h2.75c1.26,0,2.17.86,2.17,2.05"/>
+              </svg>
+            </div>
+            <div class="footer-meta">
+              <span class="footer-copy">© 2026 Etion. All rights reserved.</span>
+              <div class="footer-right">
+                <div class="footer-badge"><div class="footer-dot"></div> 47 active neighborhoods</div>
+                <div class="footer-socials">
+                  <a href="#" class="footer-social-btn" aria-label="Twitter">X</a>
+                  <a href="#" class="footer-social-btn" aria-label="Instagram">IG</a>
+                  <a href="#" class="footer-social-btn" aria-label="LinkedIn">in</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SANITY_PROJECT_ID = 'x0qx8kpt';
+    const SANITY_DATASET    = 'production';
+    const SANITY_API        = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/${SANITY_DATASET}`;
+
+    /* ─── PORTABLE TEXT → HTML ─────────────────────────────────────────────
+       Minimal renderer for Sanity's Portable Text block format.
+    ────────────────────────────────────────────────────────────────────── */
+    function portableTextToHTML(blocks) {
+      if (!blocks || !blocks.length) return '';
+      const listBuffer = { type: null, items: [] };
+      const out = [];
+
+      function flushList() {
+        if (!listBuffer.items.length) return;
+        const tag = listBuffer.type === 'bullet' ? 'ul' : 'ol';
+        out.push(`<${tag}>${listBuffer.items.join('')}</${tag}>`);
+        listBuffer.type = null;
+        listBuffer.items = [];
+      }
+
+      function renderSpan(span, marks) {
+        let text = span.text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+        const activeMarks = span.marks || [];
+        activeMarks.forEach(mark => {
+          const def = marks && marks.find(m => m._key === mark);
+          if (def) {
+            if (def._type === 'link') text = `<a href="${def.href}" target="_blank" rel="noopener">${text}</a>`;
+          } else {
+            if (mark === 'strong') text = `<strong>${text}</strong>`;
+            if (mark === 'em')     text = `<em>${text}</em>`;
+            if (mark === 'code')   text = `<code>${text}</code>`;
+            if (mark === 'underline') text = `<u>${text}</u>`;
+          }
+        });
+        return text;
+      }
+
+      blocks.forEach(block => {
+        if (block._type === 'image') {
+          flushList();
+          const url = block.asset?.url || block.asset?._ref;
+          if (url) out.push(`<img src="${url}" alt="${block.alt || ''}" loading="lazy">`);
+          return;
+        }
+        if (block._type !== 'block') return;
+
+        const inner = (block.children || []).map(s => renderSpan(s, block.markDefs)).join('');
+        const style = block.style || 'normal';
+
+        if (block.listItem) {
+          if (listBuffer.type !== block.listItem) {
+            flushList();
+            listBuffer.type = block.listItem;
+          }
+          listBuffer.items.push(`<li>${inner}</li>`);
+          return;
+        }
+
+        flushList();
+
+        const map = { h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', blockquote: 'blockquote' };
+        if (map[style]) {
+          out.push(`<${map[style]}>${inner}</${map[style]}>`);
+        } else {
+          if (inner.trim()) out.push(`<p>${inner}</p>`);
+        }
+      });
+
+      flushList();
+      return out.join('\n');
+    }
+
+    /* ─── INITIALS HELPER ─── */
+    function initials(name) {
+      return (name || 'ET').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    }
+
+    /* ─── RENDER POST ─── */
+    function renderPost(post) {
+      document.title = `${post.title} — Etion Blog`;
+
+      const date = post.publishedAt
+        ? new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+        : '';
+
+      const coverHTML = post.coverImageUrl
+        ? `<img class="post-cover" src="${post.coverImageUrl}" alt="${post.title}">`
+        : `<div class="post-cover-placeholder">${post.emoji || '📝'}</div>`;
+
+      const bodyHTML = portableTextToHTML(post.body);
+
+      document.getElementById('post-root').innerHTML = `
+        <section class="post-hero">
+          <div class="post-hero-inner">
+            <a class="post-back" href="blog.html">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8h10M8 3l5 5-5 5"/>
+              </svg>
+              Back to blog
+            </a>
+            <div class="post-category-badge">
+              <div class="post-category-dot"></div>
+              ${post.category || 'Community'}
+            </div>
+            <h1 class="post-hero-title">${post.title}</h1>
+            <div class="post-hero-meta">
+              <div class="post-author-block">
+                <div class="post-author-avatar">${initials(post.author)}</div>
+                <div>
+                  <div class="post-author-name">${post.author || 'Etion team'}</div>
+                  <div class="post-author-label">Author</div>
+                </div>
+              </div>
+              <div class="post-meta-sep"></div>
+              <div class="post-date-block">${date}</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="post-cover-wrap">${coverHTML}</div>
+
+        <div class="post-layout">
+          <div class="post-body">
+            ${post.excerpt ? `<p class="post-excerpt-lead">${post.excerpt}</p>` : ''}
+            <div class="post-content">${bodyHTML || '<p>Full article coming soon.</p>'}</div>
+            <div class="post-footer">
+              <div class="post-footer-author">
+                <div class="post-footer-avatar">${initials(post.author)}</div>
+                <div>
+                  <div class="post-footer-author-name">${post.author || 'Etion team'}</div>
+                  <div class="post-footer-author-label">Published ${date}</div>
+                </div>
+              </div>
+              <a class="post-footer-back" href="blog.html">← All stories</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ─── RENDER MORE POSTS ─── */
+    function renderMorePosts(posts, currentSlug) {
+      const others = posts.filter(p => p.slug?.current !== currentSlug).slice(0, 3);
+      if (!others.length) return;
+
+      document.getElementById('more-posts').style.display = 'block';
+      document.getElementById('more-posts-grid').innerHTML = others.map(p => {
+        const date = p.publishedAt
+          ? new Date(p.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+          : '';
+        const thumb = p.thumbnailUrl
+          ? `<img src="${p.thumbnailUrl}" alt="${p.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`
+          : p.emoji || '📝';
+        return `
+          <a class="more-card" href="post.html?slug=${p.slug?.current}">
+            <div class="more-card-thumb">${thumb}</div>
+            <div class="more-card-body">
+              <div class="more-card-cat">${p.category || 'Community'}</div>
+              <div class="more-card-title">${p.title}</div>
+              <div class="more-card-date">${date}</div>
+            </div>
+          </a>`;
+      }).join('');
+    }
+
+    /* ─── RENDER ERROR ─── */
+    function renderError(msg) {
+      document.title = 'Post not found — Etion Blog';
+      document.getElementById('post-root').innerHTML = `
+        <div class="post-error">
+          <div class="post-error-code">404</div>
+          <h2>Post not found</h2>
+          <p>${msg || 'This post may have been moved or deleted.'}</p>
+          <a href="blog.html" class="btn btn-dark btn-lg">← Back to blog</a>
+        </div>`;
+    }
+
+    /* ─── FETCH & INIT ─── */
+    async function init() {
+      const slug = new URLSearchParams(window.location.search).get('slug');
+      if (!slug) { renderError('No post slug provided.'); return; }
+
+      // Fetch the single post + all posts for "more" section in parallel
+      const postQuery = encodeURIComponent(
+        `*[_type == "blogPost" && slug.current == "${slug}"][0] {
+          _id, title, slug, category, author, excerpt, publishedAt, featured,
+          "coverImageUrl": coverImage.asset->url,
+          body[] {
+            ...,
+            _type == "image" => { ..., "asset": asset-> }
+          }
+        }`
+      );
+      const moreQuery = encodeURIComponent(
+        `*[_type == "blogPost"] | order(publishedAt desc) {
+          _id, title, slug, category, publishedAt,
+          "thumbnailUrl": coverImage.asset->url,
+          "emoji": select(
+            category == "Stories"   => "🏘️",
+            category == "Platform"  => "💡",
+            category == "Community" => "🍽️",
+            category == "Updates"   => "🚀",
+            "📝"
+          )
+        }`
+      );
+
+      try {
+        const [postRes, moreRes] = await Promise.all([
+          fetch(`${SANITY_API}?query=${postQuery}`),
+          fetch(`${SANITY_API}?query=${moreQuery}`),
+        ]);
+
+        const postData = await postRes.json();
+        const post = postData.result;
+
+        if (!post) { renderError(`No post found with slug "${slug}".`); return; }
+
+        // Enrich with emoji fallback
+        post.emoji = post.category === 'Stories'   ? '🏘️'
+                   : post.category === 'Platform'  ? '💡'
+                   : post.category === 'Community' ? '🍽️'
+                   : post.category === 'Updates'   ? '🚀' : '📝';
+
+        renderPost(post);
+
+        const moreData = await moreRes.json();
+        renderMorePosts(moreData.result || [], slug);
+
+      } catch (err) {
+        renderError('Could not load this post. Please try again.');
+        console.error(err);
+      }
+    }
+
+    /* ─── NAV SCROLL ─── */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? 'rgba(255,255,255,0.12)'
+        : 'rgba(255,255,255,0.07)';
+    }, { passive: true });
+
+    init();
+  </script>
+</body>
+</html>

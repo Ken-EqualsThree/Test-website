@@ -1,0 +1,19 @@
+{
+  "name": "etion-sanity-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.0.0",
+    "@sanity/vision": "^3.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^5.15.0",
+    "styled-components": "^6.3.11"
+  }
+}
