@@ -1683,6 +1683,7 @@
         <div class="cta-form-submit">
           <button type="submit" class="btn btn-dark btn-lg">Post your task</button>
         </div>
+        <div id="form-message" style="display:none; margin-top:1rem; padding:1rem 1.25rem; border-radius:8px; font-size:0.95rem;"></div>
       </form>
 
     </div>
@@ -2260,6 +2261,8 @@
         message:    document.getElementById('f-message').value.trim(),
       };
 
+      const msg = document.getElementById('form-message');
+
       try {
         const res = await fetch('/api/submit-task', {
           method: 'POST',
@@ -2269,12 +2272,21 @@
 
         if (!res.ok) throw new Error(await res.text());
 
-        btn.textContent = 'Task posted!';
+        msg.textContent = '✓ Your task has been posted! We\'ll be in touch soon.';
+        msg.style.display = 'block';
+        msg.style.background = '#e6f4ea';
+        msg.style.color = '#1a7f37';
         this.reset();
-        setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+        btn.textContent = originalText;
+        btn.disabled = false;
+        setTimeout(() => { msg.style.display = 'none'; }, 6000);
       } catch (err) {
         console.error('Submit error:', err);
-        btn.textContent = 'Something went wrong';
+        msg.textContent = '✗ Something went wrong. Please try again.';
+        msg.style.display = 'block';
+        msg.style.background = '#fdecea';
+        msg.style.color = '#c0392b';
+        btn.textContent = originalText;
         btn.disabled = false;
       }
     });
