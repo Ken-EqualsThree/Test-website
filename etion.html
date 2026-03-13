@@ -2238,5 +2238,59 @@
       }
     });
   </script>
+
+  <script>
+    // ─── FORM → SANITY ───────────────────────────────────────────────
+    const SANITY_PROJECT_ID = 'x0qx8kpt';
+    const SANITY_DATASET    = 'production';
+    const SANITY_API_VERSION = '2021-06-07';
+    const SANITY_WRITE_TOKEN = 'REPLACE_WITH_YOUR_WRITE_TOKEN';
+
+    document.querySelector('.cta-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const doc = {
+        _type: 'taskSubmission',
+        fullName:    document.getElementById('f-name').value.trim(),
+        phone:       document.getElementById('f-phone').value.trim(),
+        email:       document.getElementById('f-email').value.trim(),
+        dateNeeded:  document.getElementById('f-date').value || null,
+        taskType:    document.getElementById('f-task').value || null,
+        location:    document.getElementById('f-location').value.trim(),
+        budget:      document.getElementById('f-budget').value.trim(),
+        message:     document.getElementById('f-message').value.trim(),
+        submittedAt: new Date().toISOString(),
+      };
+
+      try {
+        const res = await fetch(
+          `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/mutate/${SANITY_DATASET}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SANITY_WRITE_TOKEN}`,
+            },
+            body: JSON.stringify({ mutations: [{ create: doc }] }),
+          }
+        );
+
+        if (!res.ok) throw new Error(await res.text());
+
+        btn.textContent = 'Task posted!';
+        this.reset();
+        setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 3000);
+      } catch (err) {
+        console.error('Sanity submit error:', err);
+        btn.textContent = 'Something went wrong';
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
