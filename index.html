@@ -1683,6 +1683,7 @@
         <div class="cta-form-submit">
           <button type="submit" class="btn btn-dark btn-lg">Post your task</button>
         </div>
+        <div id="form-message" style="display:none; margin-top:1rem; padding:1rem 1.25rem; border-radius:8px; font-size:0.95rem;"></div>
       </form>
 
     </div>
@@ -2271,14 +2272,7 @@
 
         if (!res.ok) throw new Error(await res.text());
 
-        msg.textContent = '✓ Your task has been posted! We\'ll be in touch soon.';
-        msg.style.display = 'block';
-        msg.style.background = '#e6f4ea';
-        msg.style.color = '#1a7f37';
-        this.reset();
-        btn.textContent = originalText;
-        btn.disabled = false;
-        setTimeout(() => { msg.style.display = 'none'; }, 6000);
+        window.location.href = '/thank-you.html';
       } catch (err) {
         console.error('Submit error:', err);
         msg.textContent = '✗ Something went wrong. Please try again.';
