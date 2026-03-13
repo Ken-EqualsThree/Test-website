@@ -879,22 +879,11 @@
       status.className = 'cms-status loading';
       statusText.textContent = 'Connecting to Sanity CMS…';
 
-      // GROQ query: all blogPost docs, sorted newest first
-      const query = encodeURIComponent(
-        `*[_type == "blogPost"] | order(publishedAt desc) {
-          _id, title, slug, category, author, excerpt, publishedAt, featured,
-          "thumbnailUrl": coverImage.asset->url
-        }`
-      );
-
-      const url = `https://${projectId}.api.sanity.io/v2024-01-01/data/query/${dataset}?query=${query}`;
-
       try {
-        const res = await fetch(url);
+        const res = await fetch('/api/get-posts');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const data = await res.json();
-        const items = data.result || [];
+        const items = await res.json();
 
         const posts = items.map(item => ({
           id:           item._id,

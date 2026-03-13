@@ -90,12 +90,36 @@ async function handleSubmitTask(req, res) {
   res.end(JSON.stringify({ success: true }));
 }
 
+async function handleGetPosts(req, res) {
+  const query = encodeURIComponent(
+    `*[_type == "blogPost"] | order(publishedAt desc) {
+      _id, title, slug, category, author, excerpt, publishedAt, featured,
+      "thumbnailUrl": coverImage.asset->url
+    }`
+  );
+  const url = `https://x0qx8kpt.api.sanity.io/v2024-01-01/data/query/production?query=${query}`;
+  const sanityRes = await fetch(url);
+  if (!sanityRes.ok) throw new Error(`Sanity responded with ${sanityRes.status}`);
+  const data = await sanityRes.json();
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(data.result || []));
+}
+
 const server = http.createServer((req, res) => {
   const urlPath = req.url.split('?')[0];
 
   if (urlPath === '/api/submit-task') {
     handleSubmitTask(req, res).catch(err => {
       console.error('API error:', err);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Internal server error' }));
+    });
+    return;
+  }
+
+  if (urlPath === '/api/get-posts') {
+    handleGetPosts(req, res).catch(err => {
+      console.error('get-posts error:', err);
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Internal server error' }));
     });
