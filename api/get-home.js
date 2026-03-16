@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const sanityRes = await fetch(url);
     if (!sanityRes.ok) throw new Error(`Sanity responded with ${sanityRes.status}`);
     const data = await sanityRes.json();
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     return res.status(200).json(data.result || null);
   } catch (err) {
     console.error('get-home error:', err);
