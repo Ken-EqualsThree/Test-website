@@ -644,7 +644,7 @@
         </div>
         <p class="section-body">Four values that guide every decision we make — from product design to community governance.</p>
       </div>
-      <div class="values-grid">
+      <div class="values-grid" id="cms-values-grid">
         <div class="value-card">
           <div class="value-icon">🤝</div>
           <div class="value-title">Reciprocity</div>
@@ -680,7 +680,7 @@
           <p>The response was overwhelming. Within a month, 40 households were exchanging help: cooking meals, carrying furniture, watching plants, fixing bikes. The credit system emerged organically — a way to keep things fair without involving money.</p>
           <p>By 2023, neighboring districts asked to join. By 2024, Etion became a proper platform. Today, 47 neighborhoods across the Netherlands run on Etion, and we're just getting started.</p>
         </div>
-        <div class="story-timeline">
+        <div class="story-timeline" id="cms-timeline">
           <div class="timeline-item">
             <div class="timeline-dot">22</div>
             <div>
@@ -724,7 +724,7 @@
       <div class="section-label">The people behind Etion</div>
       <h2 class="section-title">Meet the team</h2>
       <p class="section-body">A small, mission-driven team building tools for community self-reliance.</p>
-      <div class="team-grid">
+      <div class="team-grid" id="cms-team-grid">
         <div class="team-card">
           <div class="team-avatar">SV</div>
           <div class="team-name">Sophie van der Berg</div>
@@ -869,5 +869,97 @@
     }, { passive: true });
   </script>
   <script src="components.js"></script>
+  <script>
+  /* ── About page CMS fetch ────────────────────────────────────── */
+  (async function () {
+    try {
+      const res = await fetch('/api/get-about');
+      if (!res.ok) return;
+      const d = await res.json();
+      if (!d) return;
+
+      // Mission paragraphs
+      if (d.missionParagraph1 || d.missionParagraph2) {
+        const paras = document.querySelectorAll('.mission-text .section-body');
+        if (d.missionParagraph1 && paras[0]) paras[0].textContent = d.missionParagraph1;
+        if (d.missionParagraph2 && paras[1]) paras[1].textContent = d.missionParagraph2;
+      }
+
+      // Mission pull quote
+      if (d.missionPullQuote) {
+        const quoteEl = document.querySelector('.mission-quote');
+        if (quoteEl) quoteEl.innerHTML = d.missionPullQuote;
+      }
+
+      // Mission stats
+      if (d.missionStats && d.missionStats.length) {
+        const statNums = document.querySelectorAll('.mission-stat-num');
+        const statLbls = document.querySelectorAll('.mission-stat-label');
+        d.missionStats.forEach((s, i) => {
+          if (statNums[i]) statNums[i].textContent = s.number;
+          if (statLbls[i]) statLbls[i].textContent = s.label;
+        });
+      }
+
+      // Values grid
+      if (d.valueCards && d.valueCards.length) {
+        const grid = document.getElementById('cms-values-grid');
+        if (grid) {
+          const cards = [...grid.querySelectorAll('.value-card')];
+          d.valueCards.forEach((v, i) => {
+            if (!cards[i]) return;
+            const iconEl  = cards[i].querySelector('.value-icon');
+            const titleEl = cards[i].querySelector('.value-title');
+            const bodyEl  = cards[i].querySelector('.value-body');
+            if (iconEl)  iconEl.textContent  = v.emoji;
+            if (titleEl) titleEl.textContent = v.title;
+            if (bodyEl)  bodyEl.textContent  = v.description;
+          });
+        }
+      }
+
+      // Story paragraphs
+      if (d.storyParagraph1 || d.storyParagraph2 || d.storyParagraph3) {
+        const storyParas = document.querySelectorAll('.story-content p');
+        if (d.storyParagraph1 && storyParas[0]) storyParas[0].textContent = d.storyParagraph1;
+        if (d.storyParagraph2 && storyParas[1]) storyParas[1].textContent = d.storyParagraph2;
+        if (d.storyParagraph3 && storyParas[2]) storyParas[2].textContent = d.storyParagraph3;
+      }
+
+      // Timeline events
+      if (d.timelineEvents && d.timelineEvents.length) {
+        const timeline = document.getElementById('cms-timeline');
+        if (timeline) {
+          timeline.innerHTML = d.timelineEvents.map(e => `
+            <div class="timeline-item">
+              <div class="timeline-dot">${e.dotLabel || ''}</div>
+              <div>
+                <div class="timeline-year">${e.year}</div>
+                <div class="timeline-title">${e.title}</div>
+                <p class="timeline-desc">${e.description || ''}</p>
+              </div>
+            </div>`).join('');
+        }
+      }
+
+      // Team members
+      if (d.teamMembers && d.teamMembers.length) {
+        const grid = document.getElementById('cms-team-grid');
+        if (grid) {
+          grid.innerHTML = d.teamMembers.map(m => `
+            <div class="team-card">
+              ${m.avatarUrl
+                ? `<img class="team-avatar" src="${m.avatarUrl}?w=200&h=200&fit=crop&auto=format" alt="${m.name}" style="object-fit:cover;">`
+                : `<div class="team-avatar">${m.initials || ''}</div>`}
+              <div class="team-name">${m.name}</div>
+              <div class="team-role">${m.role}</div>
+              <p class="team-bio">${m.bio || ''}</p>
+            </div>`).join('');
+        }
+      }
+
+    } catch (e) { /* silent fallback to static HTML */ }
+  })();
+  </script>
 </body>
 </html>

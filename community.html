@@ -767,7 +767,7 @@
         </div>
         <p class="section-body">We're growing district by district. Don't see yours? Apply to start a new one.</p>
       </div>
-      <div class="neighborhood-grid">
+      <div class="neighborhood-grid" id="cms-neighborhood-grid">
         <div class="neighborhood-card active">
           <div class="neighborhood-name">Jordaan West</div>
           <div class="neighborhood-city">Amsterdam</div>
@@ -845,7 +845,7 @@
     <div class="section-inner">
       <div class="section-label">From the community</div>
       <h2 class="section-title">What members say</h2>
-      <div class="stories-grid">
+      <div class="stories-grid" id="cms-stories-grid">
         <div class="story-card">
           <p class="story-quote">"I posted a task at 9am, and by 10am my neighbor had already helped me move a bed frame to the attic. Can't believe this exists."</p>
           <div class="story-footer">
@@ -925,7 +925,7 @@
       <div class="section-label">Community leaders</div>
       <h2 class="section-title">Our ambassadors</h2>
       <p class="section-body">Ambassadors are members who go the extra mile to grow and maintain their local Etion community.</p>
-      <div class="ambassador-grid">
+      <div class="ambassador-grid" id="cms-ambassador-grid">
         <div class="ambassador-card">
           <div class="ambassador-header">
             <div class="ambassador-avatar">RF</div>
@@ -1094,5 +1094,97 @@
     }, { passive: true });
   </script>
   <script src="components.js"></script>
+  <script>
+  /* ── Community page CMS fetch ────────────────────────────────── */
+  (async function () {
+    try {
+      const res = await fetch('/api/get-community');
+      if (!res.ok) return;
+      const d = await res.json();
+      if (!d) return;
+
+      // Hero stats
+      if (d.heroStats && d.heroStats.length) {
+        const statEls = document.querySelectorAll('.page-hero-stats .hero-stat');
+        d.heroStats.forEach((s, i) => {
+          if (!statEls[i]) return;
+          const numEl = statEls[i].querySelector('.hero-stat-num');
+          const lblEl = statEls[i].querySelector('.hero-stat-label');
+          if (numEl) numEl.textContent = s.number;
+          if (lblEl) lblEl.textContent = s.label;
+        });
+      }
+
+      // Neighborhoods grid
+      if (d.neighborhoods && d.neighborhoods.length) {
+        const grid = document.getElementById('cms-neighborhood-grid');
+        if (grid) {
+          const badgeClass = badge => badge === 'Most active' ? ' active' : '';
+          grid.innerHTML = d.neighborhoods.map(n => `
+            <div class="neighborhood-card${badgeClass(n.badge)}">
+              <div class="neighborhood-name">${n.name}</div>
+              <div class="neighborhood-city">${n.city}</div>
+              <div class="neighborhood-stats">
+                <div class="neighborhood-stat"><div class="neighborhood-stat-num">${n.memberCount ?? ''}</div><div class="neighborhood-stat-label">Members</div></div>
+                <div class="neighborhood-stat"><div class="neighborhood-stat-num">${n.taskCount ?? ''}</div><div class="neighborhood-stat-label">Tasks</div></div>
+              </div>
+              <div class="neighborhood-badge"><div class="neighborhood-badge-dot"></div> ${n.badge || 'Active'}</div>
+            </div>`).join('')
+          + `<div class="neighborhood-card" style="background:var(--cream);border:1.5px dashed rgba(29,29,27,0.18);align-items:center;justify-content:center;text-align:center;cursor:pointer;">
+              <div style="font-size:24px;margin-bottom:8px;">＋</div>
+              <div style="font-size:14px;font-weight:600;color:var(--dark);">Start a new neighborhood</div>
+              <div style="font-size:13px;color:var(--muted);margin-top:4px;">Apply to bring Etion to your area</div>
+            </div>`;
+        }
+      }
+
+      // Member stories
+      if (d.testimonials && d.testimonials.length) {
+        const grid = document.getElementById('cms-stories-grid');
+        if (grid) {
+          grid.innerHTML = d.testimonials.map(t => `
+            <div class="story-card">
+              <p class="story-quote">"${t.quote}"</p>
+              <div class="story-footer">
+                ${t.avatarUrl
+                  ? `<img class="story-avatar" src="${t.avatarUrl}?w=80&h=80&fit=crop&auto=format" alt="${t.author}" style="border-radius:50%;object-fit:cover;width:40px;height:40px;">`
+                  : `<div class="story-avatar">${t.initials || ''}</div>`}
+                <div>
+                  <div class="story-name">${t.author}</div>
+                  <div class="story-location">${t.role || ''}</div>
+                </div>
+                ${t.tag ? `<div class="story-tag">${t.tag}</div>` : ''}
+              </div>
+            </div>`).join('');
+        }
+      }
+
+      // Ambassadors
+      if (d.ambassadors && d.ambassadors.length) {
+        const grid = document.getElementById('cms-ambassador-grid');
+        if (grid) {
+          grid.innerHTML = d.ambassadors.map(a => `
+            <div class="ambassador-card">
+              <div class="ambassador-header">
+                ${a.avatarUrl
+                  ? `<img class="ambassador-avatar" src="${a.avatarUrl}?w=80&h=80&fit=crop&auto=format" alt="${a.name}" style="border-radius:50%;object-fit:cover;">`
+                  : `<div class="ambassador-avatar">${a.initials || ''}</div>`}
+                <div>
+                  <div class="ambassador-name">${a.name}</div>
+                  <div class="ambassador-area">${a.area || ''}</div>
+                </div>
+              </div>
+              <p class="ambassador-bio">${a.bio || ''}</p>
+              <div class="ambassador-stats">
+                <div><div class="ambassador-stat-num">${a.membersOnboarded ?? ''}</div><div class="ambassador-stat-label">Members onboarded</div></div>
+                <div><div class="ambassador-stat-num">${a.yearsWithEtion || ''}</div><div class="ambassador-stat-label">With Etion</div></div>
+              </div>
+            </div>`).join('');
+        }
+      }
+
+    } catch (e) { /* silent fallback to static HTML */ }
+  })();
+  </script>
 </body>
 </html>
