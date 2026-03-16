@@ -105,7 +105,7 @@ async function handleGetPosts(req, res) {
   res.end(JSON.stringify(data.result || []));
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split('?')[0];
 
   if (urlPath === '/api/submit-task') {
@@ -120,6 +120,26 @@ const server = http.createServer((req, res) => {
   if (urlPath === '/api/get-posts') {
     handleGetPosts(req, res).catch(err => {
       console.error('get-posts error:', err);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Internal server error' }));
+    });
+    return;
+  }
+
+  if (urlPath === '/api/get-home' || urlPath === '/api/get-about' || urlPath === '/api/get-community') {
+    const mod = await import(`.${urlPath}.js`);
+    const mockRes = {
+      statusCode: 200,
+      headers: {},
+      setHeader(k, v) { this.headers[k] = v; },
+      status(code) { this.statusCode = code; return this; },
+      json(data) {
+        res.writeHead(this.statusCode, { 'Content-Type': 'application/json', ...this.headers });
+        res.end(JSON.stringify(data));
+      },
+    };
+    mod.default(req, mockRes).catch(err => {
+      console.error(urlPath + ' error:', err);
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Internal server error' }));
     });
