@@ -2326,6 +2326,15 @@
           const descEl  = stepEls[i].querySelector('.fs-step-desc');
           if (titleEl) titleEl.textContent = s.title;
           if (descEl)  descEl.textContent  = s.description;
+          // Update step image
+          const panel = document.querySelector(`.fs-panel[data-fs-panel="${i}"]`);
+          if (panel && s.imageUrl) {
+            const imgEl = panel.querySelector('img');
+            if (imgEl) {
+              imgEl.src = s.imageUrl + '?w=1200&auto=format&fit=crop&q=80';
+              if (s.imageAlt) imgEl.alt = s.imageAlt;
+            }
+          }
         });
       }
 
